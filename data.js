@@ -11,7 +11,7 @@ const DATA = {
      설정하면 운영진 누구나 시트만 고쳐서 레이스를 추가/수정할 수 있습니다.
      (시트 → 파일 → 공유 → 웹에 게시 → CSV → 나온 링크를 여기 붙여넣기)
      ※ 시트가 비었거나 오프라인이면 자동으로 아래 races 기본값으로 폴백 */
-  SHEET_CSV_URL: "",
+  SHEET_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSKQU6Nw8UT2V8MVDWrVKYwwKoE4MC4-YarjCV1rX2eK7kA3jtwRntHFGg6nm_erM_wTVtWlszk__zW/pub?output=csv",
 
   /* ───── 레이스 캘린더 (시트 미설정 시 기본값 / 폴백) ─────
      dist: sprint | oly | half | full | etc
