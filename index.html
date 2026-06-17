@@ -19,7 +19,7 @@
   :root{
     --bg:#0b0e14; --card:#151a24; --card2:#1b212e;
     --ink:#e8edf5; --sub:#8b95a7; --line:#262d3a;
-    --accent:#ff5a3c;
+    --accent:#1e6bff;
     --sprint:#3ec9a7; --oly:#4d9fff; --half:#ff9f43; --full:#ff5a3c; --etc:#9b8cff;
     --nav-h:64px; --safe-b:env(safe-area-inset-bottom,0px);
   }
@@ -47,9 +47,10 @@
   .lhero{position:relative;text-align:center;padding:52px 16px 40px;overflow:hidden;
     border-bottom:1px solid var(--line)}
   .lhero-bg{position:absolute;inset:0;background:
-    radial-gradient(120% 80% at 50% -10%,rgba(255,90,60,.30),transparent 60%),
-    linear-gradient(180deg,#161b26,#0b0e14)}
+    radial-gradient(120% 75% at 50% 8%,rgba(30,107,255,.30),transparent 62%),
+    linear-gradient(180deg,#0a0d15,#0b0e14)}
   .lhero-in{position:relative}
+  .hero-logo{width:80%;max-width:360px;height:auto;display:block;margin:0 auto 6px}
   .logo.big{font-size:46px;letter-spacing:-1px}
   .lhero-pitch{font-size:22px;font-weight:800;line-height:1.35;margin:14px 0 8px}
   .slogan.big{font-size:15px;color:var(--accent);font-weight:700;letter-spacing:.5px}
@@ -88,7 +89,7 @@
   .hero{background:linear-gradient(160deg,#1b212e,#151a24);border:1px solid var(--line);
     border-radius:20px;padding:22px;text-align:center;margin-top:14px;position:relative;overflow:hidden}
   .hero:before{content:"";position:absolute;top:-40px;right:-40px;width:140px;height:140px;
-    background:radial-gradient(circle,rgba(255,90,60,.25),transparent 70%)}
+    background:radial-gradient(circle,rgba(30,107,255,.28),transparent 70%)}
   .hero .label{color:var(--accent);font-size:12px;font-weight:700;letter-spacing:1px}
   .hero .rname{font-size:20px;font-weight:800;margin:8px 0 2px}
   .hero .rmeta{color:var(--sub);font-size:13px}
@@ -191,7 +192,7 @@
   <div class="lhero">
     <div class="lhero-bg"></div>
     <div class="wrap lhero-in">
-      <div class="logo big">Team<b>515</b></div>
+      <img class="hero-logo" src="logo-transparent.png" alt="Team515 · NY/NJ Korean Triathlon Club">
       <div class="lhero-pitch">미동부 최초 · 최대 · 최강<br>한인 철인클럽</div>
       <div class="slogan big">"5:15 AM. No Excuses."</div>
       <div class="cta-row">
