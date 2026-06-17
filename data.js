@@ -18,6 +18,12 @@ const DATA = {
      members: 참가 확정/예정 멤버 (없으면 [])
      ※ 아래는 예시 — 실제 대회 날짜는 확인 후 입력하세요(미정은 XX 유지). */
   races: [
+    { date:"2026-06-14", name:"IRONMAN 70.3 Eagleman", dist:"half", place:"Cambridge, MD",
+      members:["Ray"], results:[{name:"Ray Lee", time:"5:19:12"}],
+      photos:["img/eagleman/01.jpg","img/eagleman/02.jpg","img/eagleman/03.jpg",
+              "img/eagleman/04.jpg","img/eagleman/05.jpg","img/eagleman/06.jpg",
+              "img/eagleman/07.jpg","img/eagleman/08.jpg","img/eagleman/09.jpg",
+              "img/eagleman/10.jpg"] },
     { date:"2026-07-19", name:"SuperTri NJ", dist:"oly",  place:"New Jersey",
       members:["Bosco","Ray","Junho"] },
     { date:"2026-09-26", name:"IRONMAN 70.3 Jones Beach", dist:"half", place:"Jones Beach, NY",

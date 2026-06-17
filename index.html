@@ -80,6 +80,39 @@
   .gate-err{color:#ff6b6b;font-size:13px;min-height:18px;margin:8px 0 4px}
   .gate-cancel{background:none;border:none;color:var(--sub);font-size:13px;margin-top:12px;cursor:pointer}
 
+  /* ── 예정 레이스 간단 목록 (홈) ── */
+  .uplist{display:flex;flex-direction:column;gap:8px}
+  .uprow{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);
+    border-radius:12px;padding:11px 13px}
+  .uprow .upd{font-weight:800;font-size:13px;color:var(--accent);flex:0 0 46px}
+  .uprow .upn{flex:1;font-weight:600;font-size:14px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .uprow .updd{font-size:12px;color:var(--sub);font-weight:700}
+
+  /* ── 결과 보드 ── */
+  .rresult{color:var(--accent);font-weight:700}
+  .rec{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:10px}
+  .rec-h{display:flex;align-items:center;gap:8px}
+  .rec-m{color:var(--sub);font-size:12px;margin:4px 0 8px}
+  .rec-row{display:flex;justify-content:space-between;padding:7px 0;border-top:1px solid var(--line)}
+  .rec-n{font-weight:600;font-size:14px}
+  .rec-t{font-weight:800;font-size:14px;color:var(--accent);font-variant-numeric:tabular-nums}
+
+  /* ── 갤러리 ── */
+  .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+  .gthumb{width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px;cursor:pointer;
+    border:1px solid var(--line)}
+
+  /* ── 라이트박스 ── */
+  .lb{position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:200;display:none;
+    align-items:center;justify-content:center}
+  .lb.on{display:flex}
+  .lb img{max-width:96%;max-height:82%;border-radius:8px}
+  .lb-x{position:absolute;top:14px;right:18px;color:#fff;font-size:28px;background:none;border:none;cursor:pointer;z-index:2}
+  .lb-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.14);
+    color:#fff;border:none;font-size:24px;width:44px;height:44px;border-radius:50%;cursor:pointer}
+  .lb-prev{left:10px}.lb-next{right:10px}
+  .lb-cap{position:absolute;bottom:22px;left:0;right:0;text-align:center;color:#cfd6e2;font-size:12px}
+
   /* ── about ── */
   .about{background:var(--card);border:1px solid var(--line);border-radius:16px;
     padding:18px;font-size:15px;line-height:1.65;color:var(--ink)}
@@ -226,11 +259,10 @@
     <!-- NEXT RACE -->
     <div class="section-title">다음 레이스</div>
     <div id="hero"></div>
-    <div class="quick">
-      <div class="qcard"><div class="qn" id="q-races">–</div><div class="ql">예정 레이스</div></div>
-      <div class="qcard"><div class="qn">5×</div><div class="ql">주간 새벽 훈련</div></div>
-      <div class="qcard"><div class="qn" id="q-members">–</div><div class="ql">운영진</div></div>
-    </div>
+
+    <!-- 예정 레이스 간단 목록 -->
+    <div class="section-title">예정 레이스</div>
+    <div id="upcomingList" class="uplist"></div>
 
     <!-- WHO WE ARE -->
     <div class="section-title">우리는 이런 팀</div>
@@ -313,10 +345,23 @@
   </div>
 </section>
 
+<!-- ══════ 기록 (결과 보드 + 갤러리) · 공개 ══════ -->
+<section class="view" id="v-record">
+  <header><div class="logo">기록 · 갤러리</div>
+    <div class="slogan">Race Together. Become Iron Together.</div></header>
+  <div class="wrap">
+    <div class="section-title">팀 결과</div>
+    <div id="resultList"></div>
+    <div class="section-title">갤러리</div>
+    <div id="gallery" class="gallery"></div>
+  </div>
+</section>
+
 <!-- ══════ 하단 네비 ══════ -->
 <nav>
   <button class="on" data-v="home" onclick="go('home')"><span class="ni">🏠</span>홈</button>
   <button data-v="race" onclick="go('race')"><span class="ni">🏁</span>레이스<span class="nav-lock">🔒</span></button>
+  <button data-v="record" onclick="go('record')"><span class="ni">🏅</span>기록</button>
   <button data-v="train" onclick="go('train')"><span class="ni">🗓️</span>훈련<span class="nav-lock">🔒</span></button>
   <button data-v="club" onclick="go('club')"><span class="ni">📋</span>클럽</button>
 </nav>
@@ -333,6 +378,15 @@
     <button class="btn primary block" onclick="tryUnlock()">잠금 해제</button>
     <button class="gate-cancel" onclick="closeGate()">취소</button>
   </div>
+</div>
+
+<!-- ══════ 사진 라이트박스 ══════ -->
+<div class="lb" id="lb" onclick="if(event.target.id==='lb')closeLB()">
+  <button class="lb-x" onclick="closeLB()">✕</button>
+  <button class="lb-nav lb-prev" onclick="lbStep(-1)">‹</button>
+  <img id="lbImg" src="" alt="">
+  <button class="lb-nav lb-next" onclick="lbStep(1)">›</button>
+  <div class="lb-cap" id="lbCap"></div>
 </div>
 
 <script src="data.js"></script>
@@ -401,8 +455,15 @@ function renderHome(){
       <div class="rname">예정된 레이스 없음</div>
       <div class="ddsub" style="margin-top:10px">대회 등록하면 보스코에게 알려주세요 🏁</div></div>`;
   }
-  document.getElementById("q-races").textContent=up.length;
-  document.getElementById("q-members").textContent=DATA.staff.length;
+  // 예정 레이스 간단 목록
+  const ul=document.getElementById("upcomingList");
+  ul.innerHTML=up.length?up.map(r=>{const dt=r.p.dt,di=DIST[r.dist]||DIST.etc;
+    return `<div class="uprow">
+      <span class="upd">${r.p.tbd?(dt.getMonth()+1)+"월":(dt.getMonth()+1)+"/"+dt.getDate()}</span>
+      <span class="upn">${r.name}</span>
+      <span class="badge ${di.cls}">${di.label}</span>
+      <span class="updd">${dday(dt)}</span></div>`;}).join("")
+    :`<div class="note" style="text-align:center">예정된 레이스가 아직 없습니다</div>`;
 
   // 주간 훈련 미리보기
   document.getElementById("trainPreview").innerHTML=DATA.training.map(t=>
@@ -435,7 +496,8 @@ function renderRaces(mode){
         <span class="badge ${di.cls}">${di.label}</span></div>
         <div class="meta"><span>📍 ${r.place||"미정"}</span>
         ${mode==="upcoming"?`<span class="dday">${dday(dt)}</span>`:""}
-        ${r.p.tbd?`<span style="color:#ff9f43">⚠ 날짜 미정</span>`:""}</div>
+        ${r.p.tbd?`<span style="color:#ff9f43">⚠ 날짜 미정</span>`:""}
+        ${r.results&&r.results.length?`<span class="rresult">🏅 ${r.results.map(x=>x.name+" "+x.time).join(" · ")}</span>`:""}</div>
         <div class="members">${mem}</div></div></div>`;
   });
   list.innerHTML=html;
@@ -461,6 +523,30 @@ function renderClub(){
   document.getElementById("staffList").innerHTML=DATA.staff.map(s=>
     `<div class="staff"><span class="sr">${s.role}</span><span class="sn">${s.name}</span></div>`).join("");
 }
+
+/* 기록 (결과 보드 + 갤러리) */
+let GALLERY=[],lbIdx=0;
+function renderRecord(){
+  const done=DATA.races.map(r=>({...r,p:parse(r.date)}))
+    .filter(r=>r.p.valid&&r.results&&r.results.length).sort((a,b)=>b.p.dt-a.p.dt);
+  document.getElementById("resultList").innerHTML=done.length?done.map(r=>{
+    const dt=r.p.dt,di=DIST[r.dist]||DIST.etc;
+    return `<div class="rec"><div class="rec-h"><span class="rn">${r.name}</span>
+      <span class="badge ${di.cls}">${di.label}</span></div>
+      <div class="rec-m">${dt.getFullYear()}.${dt.getMonth()+1}.${dt.getDate()} · ${r.place||""}</div>
+      ${r.results.map(x=>`<div class="rec-row"><span class="rec-n">${x.name}</span><span class="rec-t">${x.time}</span></div>`).join("")}</div>`;
+  }).join(""):`<div class="note" style="text-align:center">아직 등록된 결과가 없습니다</div>`;
+
+  GALLERY=DATA.races.flatMap(r=>(r.photos||[]).map(src=>({src,cap:r.name})));
+  document.getElementById("gallery").innerHTML=GALLERY.length?GALLERY.map((g,i)=>
+    `<img class="gthumb" loading="lazy" src="${g.src}" onclick="openLB(${i})">`).join("")
+    :`<div class="note" style="text-align:center">사진이 곧 추가됩니다</div>`;
+}
+function openLB(i){if(!GALLERY[i])return;lbIdx=i;showLB();document.getElementById("lb").classList.add("on");}
+function showLB(){const g=GALLERY[lbIdx];document.getElementById("lbImg").src=g.src;
+  document.getElementById("lbCap").textContent=(lbIdx+1)+" / "+GALLERY.length+(g.cap?" · "+g.cap:"");}
+function lbStep(d){lbIdx=(lbIdx+d+GALLERY.length)%GALLERY.length;showLB();}
+function closeLB(){document.getElementById("lb").classList.remove("on");}
 
 /* 공개 가입 CTA = 인스타 DM. 인스타 미설정이면 "오픈 예정"으로 비활성 */
 function setContactCTA(){
@@ -500,19 +586,30 @@ function sheetToRaces(csv){
   return out.length?out:null;
 }
 async function loadRaces(){
-  if(!DATA.SHEET_CSV_URL)return;            // 시트 미설정 → 기본값 사용
+  const local=DATA.races.slice();           // data.js (사진/기록 보유)
+  if(!DATA.SHEET_CSV_URL)return;            // 시트 미설정 → 로컬 사용
+  let sheet=null;
   try{
     const res=await fetch(DATA.SHEET_CSV_URL,{cache:"no-store"});
-    if(!res.ok)throw 0;
-    const parsed=sheetToRaces(await res.text());
-    if(parsed){DATA.races=parsed;}          // 성공 시에만 교체
-  }catch(e){/* 오프라인/오류 → data.js 기본값 유지 */}
+    if(res.ok)sheet=sheetToRaces(await res.text());
+  }catch(e){/* 오프라인/오류 */}
+  if(!sheet)return;                          // 시트 실패 → 로컬 유지
+  // 병합: 시트(레이스 목록) + 로컬(사진·기록). 같은 레이스면 시트에 사진/기록 부착
+  const key=r=>(r.name||"").toLowerCase().trim()+"|"+(r.date||"");
+  const map=new Map();
+  sheet.forEach(r=>map.set(key(r),r));
+  local.forEach(r=>{
+    const k=key(r),e=map.get(k);
+    if(e){if(r.photos)e.photos=r.photos;if(r.result)e.result=r.result;if(r.video)e.video=r.video;}
+    else map.set(k,r);                       // 시트에 없는 로컬 레이스(예: Eagleman) 추가
+  });
+  DATA.races=[...map.values()];
 }
 
 async function init(){
   renderTrain();renderClub();setContactCTA();updateNavLocks(); // 정적 데이터 즉시 렌더
   await loadRaces();                          // 시트 시도
-  renderHome();renderRaces("upcoming");       // 레이스 렌더(시트 or 폴백)
+  renderHome();renderRaces("upcoming");renderRecord(); // 레이스·기록 렌더(시트 or 폴백)
 }
 init();
 
