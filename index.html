@@ -284,7 +284,7 @@
     <div id="homeGallerySection" style="display:none">
       <div class="section-title">갤러리</div>
       <div id="homeGallery" class="gallery"></div>
-      <button class="btn ghost block" style="margin-top:10px" onclick="go('record')">전체 기록 · 사진 보기 →</button>
+      <button class="btn ghost block" style="margin-top:10px" onclick="go('gallery')">갤러리 전체 보기 →</button>
     </div>
 
     <!-- VALUES -->
@@ -320,6 +320,10 @@
       <button id="btnPast" onclick="renderRaces('past')">지난 레이스</button>
     </div>
     <div id="raceList"></div>
+
+    <div class="section-title">개인 기록</div>
+    <div id="resultList"></div>
+
     <footer>레이스 추가/수정 → 대외홍보부장 보스코</footer>
   </div>
 </section>
@@ -352,14 +356,11 @@
   </div>
 </section>
 
-<!-- ══════ 기록 (결과 보드 + 갤러리) · 공개 ══════ -->
-<section class="view" id="v-record">
-  <header><div class="logo">기록 · 갤러리</div>
-    <div class="slogan">Race Together. Become Iron Together.</div></header>
+<!-- ══════ 갤러리 · 공개 ══════ -->
+<section class="view" id="v-gallery">
+  <header><div class="logo">갤러리</div>
+    <div class="slogan">함께 달린 순간들</div></header>
   <div class="wrap">
-    <div class="section-title">팀 결과</div>
-    <div id="resultList"></div>
-    <div class="section-title">갤러리</div>
     <div id="gallery" class="gallery"></div>
   </div>
 </section>
@@ -367,8 +368,8 @@
 <!-- ══════ 하단 네비 ══════ -->
 <nav>
   <button class="on" data-v="home" onclick="go('home')"><span class="ni">🏠</span>홈</button>
+  <button data-v="gallery" onclick="go('gallery')"><span class="ni">📷</span>갤러리</button>
   <button data-v="race" onclick="go('race')"><span class="ni">🏁</span>레이스<span class="nav-lock">🔒</span></button>
-  <button data-v="record" onclick="go('record')"><span class="ni">🏅</span>기록</button>
   <button data-v="train" onclick="go('train')"><span class="ni">🗓️</span>훈련<span class="nav-lock">🔒</span></button>
   <button data-v="club" onclick="go('club')"><span class="ni">📋</span>클럽</button>
 </nav>
@@ -542,7 +543,9 @@ function renderClub(){
 /* 기록 (결과 보드 + 갤러리) */
 let GALLERY=[],lbIdx=0;
 function buildGallery(){GALLERY=DATA.races.flatMap(r=>(r.photos||[]).map(src=>({src,cap:r.name})));}
-function renderRecord(){
+
+/* 개인 기록 (멤버 전용 · 레이스 탭) */
+function renderResults(){
   const done=DATA.races.map(r=>({...r,p:parse(r.date)}))
     .filter(r=>r.p.valid&&r.results&&r.results.length).sort((a,b)=>b.p.dt-a.p.dt);
   document.getElementById("resultList").innerHTML=done.length?done.map(r=>{
@@ -551,8 +554,11 @@ function renderRecord(){
       <span class="badge ${di.cls}">${di.label}</span></div>
       <div class="rec-m">${dt.getFullYear()}.${dt.getMonth()+1}.${dt.getDate()} · ${r.place||""}</div>
       ${r.results.map(x=>`<div class="rec-row"><span class="rec-n">${x.name}</span><span class="rec-t">${x.time}</span></div>`).join("")}</div>`;
-  }).join(""):`<div class="note" style="text-align:center">아직 등록된 결과가 없습니다</div>`;
+  }).join(""):`<div class="note" style="text-align:center">아직 등록된 기록이 없습니다</div>`;
+}
 
+/* 갤러리 (공개) */
+function renderGallery(){
   document.getElementById("gallery").innerHTML=GALLERY.length?GALLERY.map((g,i)=>
     `<img class="gthumb" loading="lazy" src="${g.src}" onclick="openLB(${i})">`).join("")
     :`<div class="note" style="text-align:center">사진이 곧 추가됩니다</div>`;
@@ -624,8 +630,8 @@ async function loadRaces(){
 async function init(){
   renderTrain();renderClub();setContactCTA();updateNavLocks(); // 정적 데이터 즉시 렌더
   await loadRaces();                          // 시트 시도
-  buildGallery();                             // 사진 모음(홈·기록 공용)
-  renderHome();renderRaces("upcoming");renderRecord();
+  buildGallery();                             // 사진 모음(홈·갤러리 공용)
+  renderHome();renderRaces("upcoming");renderResults();renderGallery();
 }
 init();
 
