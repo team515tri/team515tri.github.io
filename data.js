@@ -90,5 +90,8 @@ const DATA = {
   /* ───── 외부 연결 링크 ─────
      공개 가입 동선 = 인스타 DM 문의. (오픈채팅은 운영진이 직접 초대 → 앱에 공개 안 함) */
   instagram: "https://www.instagram.com/team515_tri/",   // 공개 가입 CTA가 여기로 연결됨
+  // 홈에 띄울 인스타 포스트 (최신순). 글 올린 뒤 포스트 URL 추가하면 홈에 임베드됨.
+  // 예: "https://www.instagram.com/p/XXXXXXXXX/"
+  instaPosts: [],
   // 카톡 오픈채팅 = 운영진이 DM으로 직접 초대 (보안상 public 소스에 링크 미보관)
 };

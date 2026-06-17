@@ -103,6 +103,12 @@
   .gal-h{display:flex;justify-content:space-between;align-items:baseline;margin:0 2px 8px;
     font-weight:700;font-size:15px}
   .gal-d{color:var(--sub);font-size:12px;font-weight:600}
+
+  /* ── 인스타 ── */
+  .igfollow{display:block;text-align:center;text-decoration:none;font-weight:700;font-size:14px;
+    color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px}
+  .igposts{margin-top:12px;display:flex;flex-direction:column;gap:12px;align-items:center}
+  .igposts .instagram-media{margin:0 auto!important;min-width:0!important}
   .gthumb{width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px;cursor:pointer;
     border:1px solid var(--line)}
 
@@ -289,6 +295,12 @@
       <div class="section-title">갤러리</div>
       <div id="homeGallery" class="gallery"></div>
       <button class="btn ghost block" style="margin-top:10px" onclick="go('gallery')">갤러리 전체 보기 →</button>
+    </div>
+
+    <!-- INSTAGRAM -->
+    <div id="instaSection" style="display:none">
+      <div class="section-title">Instagram</div>
+      <div id="instaBody"></div>
     </div>
 
     <!-- VALUES -->
@@ -579,6 +591,27 @@ function renderGallery(){
   });
   document.getElementById("gallery").innerHTML=html;
 }
+/* 인스타 (홈) — 팔로우 카드 + 최신 포스트 임베드 */
+function igHandle(){const m=(DATA.instagram||"").match(/instagram\.com\/([^/?]+)/);return m?m[1]:"";}
+function renderInsta(){
+  const sec=document.getElementById("instaSection");
+  if(!DATA.instagram){sec.style.display="none";return;}
+  sec.style.display="";
+  const posts=(DATA.instaPosts||[]).slice(0,2);
+  let html=`<a class="igfollow" href="${DATA.instagram}" target="_blank" rel="noopener">📷 @${igHandle()} 팔로우</a>`;
+  if(posts.length){
+    html+=`<div class="igposts">`+posts.map(u=>
+      `<blockquote class="instagram-media" data-instgrm-permalink="${u}" data-instgrm-version="14"></blockquote>`).join("")+`</div>`;
+  }
+  document.getElementById("instaBody").innerHTML=html;
+  if(posts.length){
+    if(window.instgrm){window.instgrm.Embeds.process();}
+    else if(!document.getElementById("ig-embed-js")){
+      const s=document.createElement("script");s.id="ig-embed-js";s.async=true;
+      s.src="https://www.instagram.com/embed.js";document.body.appendChild(s);
+    }
+  }
+}
 function openLB(i){if(!GALLERY[i])return;lbIdx=i;showLB();document.getElementById("lb").classList.add("on");}
 function showLB(){const g=GALLERY[lbIdx];document.getElementById("lbImg").src=g.src;
   document.getElementById("lbCap").textContent=(lbIdx+1)+" / "+GALLERY.length+(g.cap?" · "+g.cap:"");}
@@ -647,7 +680,7 @@ async function init(){
   renderTrain();renderClub();setContactCTA();updateNavLocks(); // 정적 데이터 즉시 렌더
   await loadRaces();                          // 시트 시도
   buildGallery();                             // 사진 모음(홈·갤러리 공용)
-  renderHome();renderRaces("upcoming");renderResults();renderGallery();
+  renderHome();renderRaces("upcoming");renderResults();renderGallery();renderInsta();
 }
 init();
 
