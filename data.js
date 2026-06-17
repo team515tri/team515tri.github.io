@@ -77,6 +77,6 @@ const DATA = {
 
   /* ───── 외부 연결 링크 ─────
      공개 가입 동선 = 인스타 DM 문의. (오픈채팅은 운영진이 직접 초대 → 앱에 공개 안 함) */
-  instagram: "",   // 인스타 주소 (예: https://instagram.com/team515) — 생기면 넣기. 공개 CTA가 여기로 연결됨
+  instagram: "https://www.instagram.com/team515_tri/",   // 공개 가입 CTA가 여기로 연결됨
   kakaoInviteLink: "https://open.kakao.com/o/gwuyx2zi",  // ※수동 초대용 참고. 앱에 노출 안 함
 };
