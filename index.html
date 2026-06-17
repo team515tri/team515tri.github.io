@@ -99,6 +99,10 @@
 
   /* ── 갤러리 ── */
   .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+  .gal-event{margin-bottom:20px}
+  .gal-h{display:flex;justify-content:space-between;align-items:baseline;margin:0 2px 8px;
+    font-weight:700;font-size:15px}
+  .gal-d{color:var(--sub);font-size:12px;font-weight:600}
   .gthumb{width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px;cursor:pointer;
     border:1px solid var(--line)}
 
@@ -361,7 +365,7 @@
   <header><div class="logo">갤러리</div>
     <div class="slogan">함께 달린 순간들</div></header>
   <div class="wrap">
-    <div id="gallery" class="gallery"></div>
+    <div id="gallery"></div>
   </div>
 </section>
 
@@ -542,7 +546,10 @@ function renderClub(){
 
 /* 기록 (결과 보드 + 갤러리) */
 let GALLERY=[],lbIdx=0;
-function buildGallery(){GALLERY=DATA.races.flatMap(r=>(r.photos||[]).map(src=>({src,cap:r.name})));}
+// 사진 있는 레이스를 최신순으로 (홈·갤러리·라이트박스 인덱스 공통 순서)
+function photoRaces(){return DATA.races.map(r=>({...r,p:parse(r.date)}))
+  .filter(r=>r.p.valid&&r.photos&&r.photos.length).sort((a,b)=>b.p.dt-a.p.dt);}
+function buildGallery(){GALLERY=photoRaces().flatMap(r=>r.photos.map(src=>({src,cap:r.name})));}
 
 /* 개인 기록 (멤버 전용 · 레이스 탭) */
 function renderResults(){
@@ -557,11 +564,20 @@ function renderResults(){
   }).join(""):`<div class="note" style="text-align:center">아직 등록된 기록이 없습니다</div>`;
 }
 
-/* 갤러리 (공개) */
+/* 갤러리 (공개, 이벤트별) */
 function renderGallery(){
-  document.getElementById("gallery").innerHTML=GALLERY.length?GALLERY.map((g,i)=>
-    `<img class="gthumb" loading="lazy" src="${g.src}" onclick="openLB(${i})">`).join("")
-    :`<div class="note" style="text-align:center">사진이 곧 추가됩니다</div>`;
+  const races=photoRaces();
+  if(!races.length){document.getElementById("gallery").innerHTML=
+    `<div class="note" style="text-align:center">사진이 곧 추가됩니다</div>`;return;}
+  let html="",gi=0;
+  races.forEach(r=>{
+    const dt=r.p.dt;
+    html+=`<div class="gal-event"><div class="gal-h"><span>${r.name}</span>
+      <span class="gal-d">${dt.getFullYear()}.${dt.getMonth()+1}</span></div>
+      <div class="gallery">${r.photos.map(src=>{const i=gi++;
+        return `<img class="gthumb" loading="lazy" src="${src}" onclick="openLB(${i})">`;}).join("")}</div></div>`;
+  });
+  document.getElementById("gallery").innerHTML=html;
 }
 function openLB(i){if(!GALLERY[i])return;lbIdx=i;showLB();document.getElementById("lb").classList.add("on");}
 function showLB(){const g=GALLERY[lbIdx];document.getElementById("lbImg").src=g.src;
