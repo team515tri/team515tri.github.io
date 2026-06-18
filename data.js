@@ -86,9 +86,9 @@ const DATA = {
   staff: [
     { role:"팀장", name:"Ray Lee" },
     { role:"부팀장", name:"Sam" },
+    { role:"부팀장", name:"Junho" },
     { role:"총무", name:"John Kim" },
     { role:"대외홍보부장", name:"Bosco" },
-    { role:"고문", name:"Junho" },
   ],
 
   /* ───── 홈 하이라이트 (공개) ─────
