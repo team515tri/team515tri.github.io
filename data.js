@@ -39,11 +39,11 @@ const DATA = {
 
   /* ───── 주간 정기 훈련 (새벽 5:15~5:30 시작) ───── */
   training: [
-    { day:"화", icon:"🚴", title:"인터벌 라이딩", type:"bike" },
-    { day:"목", icon:"🏃", title:"인터벌 러닝",   type:"run" },
-    { day:"금", icon:"🏊", title:"수영 / 오픈워터", type:"swim" },
-    { day:"토", icon:"🚴", title:"롱 라이딩",     type:"bike" },
-    { day:"일", icon:"🏃", title:"롱 런",        type:"run" },
+    { day:"화", icon:"ph-bicycle",          title:"인터벌 라이딩", type:"bike" },
+    { day:"목", icon:"ph-person-simple-run", title:"인터벌 러닝",   type:"run" },
+    { day:"금", icon:"ph-person-simple-swim",title:"수영 / 오픈워터", type:"swim" },
+    { day:"토", icon:"ph-bicycle",          title:"롱 라이딩",     type:"bike" },
+    { day:"일", icon:"ph-person-simple-run", title:"롱 런",        type:"run" },
   ],
   trainingNote: "모든 훈련 새벽 5:15~5:30 시작 · 시즌·일출·날씨에 따라 조정 · 주 1회 이상 참여 필수",
 

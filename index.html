@@ -16,6 +16,9 @@
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <link rel="icon" href="icons/favicon-32.png">
 
+<!-- Phosphor Icons (무료 아이콘 라이브러리) -->
+<script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+
 <style>
   :root{
     --bg:#0b0e14; --card:#151a24; --card2:#1b212e;
@@ -31,6 +34,7 @@
     padding-bottom:calc(var(--nav-h) + var(--safe-b) + 16px);
     padding-top:env(safe-area-inset-top,0px)}
   .wrap{max-width:680px;margin:0 auto;padding:0 16px}
+  i.ph{vertical-align:-.125em;line-height:1}
   .view{display:none;animation:fade .25s ease}
   .view.on{display:block}
   @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
@@ -332,7 +336,7 @@
 
     <!-- INSTALL -->
     <div class="install" id="install">
-      📲 <b>홈 화면에 앱으로 추가</b><br>
+      <i class="ph ph-device-mobile"></i> <b>홈 화면에 앱으로 추가</b><br>
       <span>iPhone: Safari 하단 <b>공유</b> → <b>홈 화면에 추가</b></span><br>
       <span>Android: Chrome 메뉴(⋮) → <b>앱 설치</b></span>
     </div>
@@ -343,7 +347,7 @@
 <!-- ══════ 레이스 ══════ -->
 <section class="view" id="v-race">
   <header><div class="logo">레이스 캘린더</div>
-    <div class="slogan">함께 출전합니다 🏁</div></header>
+    <div class="slogan">함께 출전합니다</div></header>
   <div class="wrap">
     <div class="toggle">
       <button id="btnUp" class="on" onclick="renderRaces('upcoming')">다가오는</button>
@@ -407,17 +411,17 @@
 
 <!-- ══════ 하단 네비 ══════ -->
 <nav>
-  <button class="on" data-v="home" onclick="go('home')"><span class="ni">🏠</span>홈</button>
-  <button data-v="club" onclick="go('club')"><span class="ni">📋</span>클럽</button>
-  <button data-v="gallery" onclick="go('gallery')"><span class="ni">🖼️</span>갤러리</button>
-  <button data-v="race" onclick="go('race')"><span class="ni">🏁</span>레이스<span class="nav-lock">🔒</span></button>
-  <button data-v="train" onclick="go('train')"><span class="ni">🗓️</span>훈련<span class="nav-lock">🔒</span></button>
+  <button class="on" data-v="home" onclick="go('home')"><i class="ph ph-house ni"></i>홈</button>
+  <button data-v="club" onclick="go('club')"><i class="ph ph-users-three ni"></i>클럽</button>
+  <button data-v="gallery" onclick="go('gallery')"><i class="ph ph-images ni"></i>갤러리</button>
+  <button data-v="race" onclick="go('race')"><i class="ph ph-flag-checkered ni"></i>레이스<i class="ph ph-lock-simple nav-lock"></i></button>
+  <button data-v="train" onclick="go('train')"><i class="ph ph-calendar-dots ni"></i>훈련<i class="ph ph-lock-simple nav-lock"></i></button>
 </nav>
 
 <!-- ══════ 멤버 잠금 모달 ══════ -->
 <div class="gate" id="gate">
   <div class="gate-box">
-    <div class="gate-ico">🔒</div>
+    <div class="gate-ico"><i class="ph ph-lock-simple"></i></div>
     <div class="gate-t">Team515 멤버 전용</div>
     <div class="gate-s">레이스·훈련 정보는 멤버에게만 공개됩니다.<br>클럽 비밀번호를 입력하세요.</div>
     <input id="gateInput" type="password" inputmode="text" placeholder="비밀번호" autocomplete="off"
@@ -430,10 +434,10 @@
 
 <!-- ══════ 사진 라이트박스 ══════ -->
 <div class="lb" id="lb" onclick="if(event.target.id==='lb')closeLB()">
-  <button class="lb-x" onclick="closeLB()">✕</button>
-  <button class="lb-nav lb-prev" onclick="lbStep(-1)">‹</button>
+  <button class="lb-x" onclick="closeLB()"><i class="ph ph-x"></i></button>
+  <button class="lb-nav lb-prev" onclick="lbStep(-1)"><i class="ph ph-caret-left"></i></button>
   <img id="lbImg" src="" alt="">
-  <button class="lb-nav lb-next" onclick="lbStep(1)">›</button>
+  <button class="lb-nav lb-next" onclick="lbStep(1)"><i class="ph ph-caret-right"></i></button>
   <div class="lb-cap" id="lbCap"></div>
 </div>
 
@@ -492,16 +496,16 @@ function renderHome(){
     hero.innerHTML=`<div class="hero">
       <div class="label">NEXT RACE · ${di.label}</div>
       <div class="rname">${r.name}</div>
-      <div class="rmeta">📍 ${r.place||"장소 미정"} · ${dt.getFullYear()}.${dt.getMonth()+1}${r.p.tbd?" (날짜 미정)":"."+(r.p.tbd?"":dt.getDate())}</div>
+      <div class="rmeta"><i class="ph ph-map-pin"></i> ${r.place||"장소 미정"} · ${dt.getFullYear()}.${dt.getMonth()+1}${r.p.tbd?" (날짜 미정)":"."+(r.p.tbd?"":dt.getDate())}</div>
       <div class="dd">${dday(dt)}</div>
       <div class="ddsub">${(()=>{const n=r.members?r.members.length:0;
-        return n?`👥 ${n}명 출전 예정${r.p.tbd?" · 날짜 미정":""}`
+        return n?`<i class="ph ph-users"></i> ${n}명 출전 예정${r.p.tbd?" · 날짜 미정":""}`
           :(r.p.tbd?"정확한 날짜 확정 시 카운트 시작":"함께 달릴 사람 모집 중");})()}</div>
     </div>`;
   } else {
     hero.innerHTML=`<div class="hero"><div class="label">NEXT RACE</div>
       <div class="rname">예정된 레이스 없음</div>
-      <div class="ddsub" style="margin-top:10px">대회 등록하면 보스코에게 알려주세요 🏁</div></div>`;
+      <div class="ddsub" style="margin-top:10px">대회 등록하면 보스코에게 알려주세요</div></div>`;
   }
   // 예정 레이스 목록 (다음 레이스는 위에 크게 나오므로 제외)
   const rest=up.slice(1);
@@ -516,7 +520,7 @@ function renderHome(){
 
   // 주간 훈련 미리보기
   document.getElementById("trainPreview").innerHTML=DATA.training.map(t=>
-    `<div class="tp"><div class="tpd">${t.day}</div><div class="tpi">${t.icon}</div></div>`).join("");
+    `<div class="tp"><div class="tpd">${t.day}</div><div class="tpi"><i class="ph ${t.icon}"></i></div></div>`).join("");
 
   // 홈 갤러리 미리보기 (사진 6장, 있을 때만)
   const sec=document.getElementById("homeGallerySection");
@@ -537,24 +541,24 @@ function renderRaces(mode){
     .sort((a,b)=>mode==="upcoming"?a.p.dt-b.p.dt:b.p.dt-a.p.dt);
   const list=document.getElementById("raceList");
   if(!items.length){list.innerHTML=`<div class="empty-state">${mode==="upcoming"
-    ?"등록된 다가오는 레이스가 없습니다.<br>대회 등록하면 알려주세요! 🏁":"지난 레이스 기록이 없습니다."}</div>`;return;}
+    ?"등록된 다가오는 레이스가 없습니다.<br>대회 등록하면 알려주세요":"지난 레이스 기록이 없습니다."}</div>`;return;}
   let html="",cur="";
   items.forEach(r=>{
     const dt=r.p.dt,di=DIST[r.dist]||DIST.etc;
     const ml=MON[dt.getMonth()]+" "+dt.getFullYear();
     if(ml!==cur){cur=ml;html+=`<div class="month">${ml}</div>`;}
     const cnt=r.members?r.members.length:0;
-    const mem=cnt?`<span class="chip cnt">👥 ${cnt}명</span>`+r.members.map(m=>`<span class="chip">${m}</span>`).join("")
+    const mem=cnt?`<span class="chip cnt"><i class="ph ph-users"></i> ${cnt}명</span>`+r.members.map(m=>`<span class="chip">${m}</span>`).join("")
       :`<span class="chip empty">참가자 모집 중</span>`;
     html+=`<div class="card ${mode==='past'?'past':''}">
       <div class="date"><div class="d">${r.p.tbd?"?":dt.getDate()}</div>
         <div class="m">${MON[dt.getMonth()]}</div><div class="y">${dt.getFullYear()}</div></div>
       <div class="cbody"><div class="row1"><span class="rn">${r.name}</span>
         <span class="badge ${di.cls}">${di.label}</span></div>
-        <div class="meta"><span>📍 ${r.place||"미정"}</span>
+        <div class="meta"><span><i class="ph ph-map-pin"></i> ${r.place||"미정"}</span>
         ${mode==="upcoming"?`<span class="dday">${dday(dt)}</span>`:""}
-        ${r.p.tbd?`<span style="color:#ff9f43">⚠ 날짜 미정</span>`:""}
-        ${r.results&&r.results.length?`<span class="rresult">🏅 ${r.results.map(x=>x.name+" "+x.time).join(" · ")}</span>`:""}</div>
+        ${r.p.tbd?`<span style="color:#ff9f43"><i class="ph ph-warning-circle"></i> 날짜 미정</span>`:""}
+        ${r.results&&r.results.length?`<span class="rresult"><i class="ph ph-medal"></i> ${r.results.map(x=>x.name+" "+x.time).join(" · ")}</span>`:""}</div>
         <div class="members">${mem}</div></div></div>`;
   });
   list.innerHTML=html;
@@ -564,7 +568,7 @@ function renderRaces(mode){
 function renderTrain(){
   document.getElementById("trainList").innerHTML=DATA.training.map(t=>
     `<div class="trow"><div class="tday">${t.day}</div>
-      <div class="ticon">${t.icon}</div><div class="ttitle">${t.title}</div></div>`).join("");
+      <div class="ticon"><i class="ph ${t.icon}"></i></div><div class="ttitle">${t.title}</div></div>`).join("");
   document.getElementById("trainNote").textContent="※ "+DATA.trainingNote;
   document.getElementById("levelList").innerHTML=DATA.levels.map(l=>
     `<div class="lvl"><span class="ldot" style="background:${l.color}"></span>
@@ -576,7 +580,7 @@ function renderClub(){
   document.getElementById("valueList").innerHTML=DATA.values.map(v=>
     `<div class="val"><div class="ve"><span>${v.en}</span> · ${v.ko}</div><div class="vd">${v.d}</div></div>`).join("");
   document.getElementById("welcomeList").innerHTML=(DATA.welcome||[]).map(w=>
-    `<div class="welcome"><span class="wc-dot">✓</span><span>${w}</span></div>`).join("");
+    `<div class="welcome"><i class="ph ph-check-circle wc-dot"></i><span>${w}</span></div>`).join("");
   document.getElementById("staffList").innerHTML=
     `<div class="staffcard">`+DATA.staff.map(s=>
       `<div class="staffrow"><span class="sr">${s.role}</span><span class="sn">${s.name}</span></div>`).join("")+`</div>`;
@@ -613,7 +617,7 @@ function renderGallery(){
     html+=`<div class="gal-event">
       <button class="gal-h ${open?'open':''}" onclick="toggleEvent(this)">
         <span>${r.name}</span>
-        <span class="gal-d">${dt.getFullYear()}.${dt.getMonth()+1} · ${r.photos.length}장 <span class="gal-arrow">▾</span></span>
+        <span class="gal-d">${dt.getFullYear()}.${dt.getMonth()+1} · ${r.photos.length}장 <i class="ph ph-caret-down gal-arrow"></i></span>
       </button>
       <div class="gallery gal-body" style="${open?'':'display:none'}">${r.photos.map(src=>{const i=gi++;
         return `<img class="gthumb" loading="lazy" src="${src}" onclick="openLB(${i})">`;}).join("")}</div></div>`;
