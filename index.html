@@ -232,10 +232,12 @@
   .welcome{display:flex;gap:10px;align-items:flex-start;background:var(--card);border:1px solid var(--line);
     border-radius:12px;padding:13px 14px;margin-bottom:8px;font-size:14px;line-height:1.5}
   .wc-dot{color:var(--accent);font-weight:800;flex:0 0 auto}
-  .staff{display:flex;justify-content:space-between;background:var(--card);
-    border:1px solid var(--line);border-radius:12px;padding:13px 14px;margin-bottom:8px}
-  .staff .sr{color:var(--sub);font-size:13px}
-  .staff .sn{font-weight:700;font-size:14px}
+  .staffcard{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:2px 14px}
+  .staffrow{display:flex;justify-content:space-between;align-items:center;
+    padding:12px 0;border-bottom:1px solid var(--line)}
+  .staffrow:last-child{border-bottom:none}
+  .staffrow .sr{color:var(--sub);font-size:13px}
+  .staffrow .sn{font-weight:700;font-size:14px}
   .joinbtn{display:block;text-align:center;background:var(--accent);color:#fff;
     text-decoration:none;font-weight:700;padding:15px;border-radius:14px;margin:18px 0 8px}
 
@@ -575,8 +577,9 @@ function renderClub(){
     `<div class="val"><div class="ve"><span>${v.en}</span> · ${v.ko}</div><div class="vd">${v.d}</div></div>`).join("");
   document.getElementById("welcomeList").innerHTML=(DATA.welcome||[]).map(w=>
     `<div class="welcome"><span class="wc-dot">✓</span><span>${w}</span></div>`).join("");
-  document.getElementById("staffList").innerHTML=DATA.staff.map(s=>
-    `<div class="staff"><span class="sr">${s.role}</span><span class="sn">${s.name}</span></div>`).join("");
+  document.getElementById("staffList").innerHTML=
+    `<div class="staffcard">`+DATA.staff.map(s=>
+      `<div class="staffrow"><span class="sr">${s.role}</span><span class="sn">${s.name}</span></div>`).join("")+`</div>`;
 }
 
 /* 기록 (결과 보드 + 갤러리) */
