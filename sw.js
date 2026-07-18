@@ -2,7 +2,7 @@
    전략: 네트워크 우선(network-first) → 오프라인이면 캐시 폴백.
    온라인일 때는 항상 최신을 받아오므로 data.js만 고쳐 재배포하면 모든 폰에 반영됨. */
 
-const CACHE = "team515-v6";
+const CACHE = "team515-v7";
 const ASSETS = [
   "./", "./index.html", "./data.js", "./manifest.json", "./logo-transparent.png",
   "./media/hero.mp4", "./media/hero-poster.jpg",
