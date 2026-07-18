@@ -200,6 +200,8 @@
   .b-sprint{background:var(--sprint)} .b-oly{background:var(--oly)}
   .b-half{background:var(--half)} .b-full{background:var(--full);color:#fff} .b-etc{background:var(--etc)}
   .b-marathon{background:var(--marathon);color:#fff}
+  .b-major{background:linear-gradient(135deg,#f0c04a,#d99a2b);color:#3a2a05;box-shadow:0 0 10px rgba(232,178,58,.45)}
+  .b-major i{font-size:10px;vertical-align:-1px;margin-right:2px}
   .meta{color:var(--sub);font-size:12px;margin-top:4px;display:flex;gap:9px;flex-wrap:wrap}
   .dday{color:var(--accent);font-weight:700}
   .members{margin-top:9px;display:flex;gap:5px;flex-wrap:wrap}
@@ -518,7 +520,8 @@ function renderHome(){
   ul.innerHTML=rest.length?rest.map(r=>{const dt=r.p.dt,di=DIST[r.dist]||DIST.etc;
     return `<div class="uprow">
       <span class="upd">${r.p.tbd?(dt.getMonth()+1)+"월":(dt.getMonth()+1)+"/"+dt.getDate()}</span>
-      <span class="upn">${r.major?'<i class="ph ph-crown major-ic"></i>':''}${r.name}</span>
+      <span class="upn">${r.name}</span>
+      ${r.major?'<span class="badge b-major"><i class="ph ph-crown"></i>MAJOR</span>':''}
       <span class="badge ${di.cls}">${di.label}</span>
       <span class="updd">${dday(dt)}</span></div>`;}).join("")
     :`<div class="note" style="text-align:center">이후 예정 레이스는 아직 없습니다</div>`;
@@ -558,7 +561,8 @@ function renderRaces(mode){
     html+=`<div class="card ${mode==='past'?'past':''}${r.major?' major':''}">
       <div class="date"><div class="d">${r.p.tbd?"?":dt.getDate()}</div>
         <div class="m">${MON[dt.getMonth()]}</div><div class="y">${dt.getFullYear()}</div></div>
-      <div class="cbody"><div class="row1"><span class="rn">${r.major?'<i class="ph ph-crown major-ic"></i>':''}${r.name}</span>
+      <div class="cbody"><div class="row1"><span class="rn">${r.name}</span>
+        ${r.major?'<span class="badge b-major"><i class="ph ph-crown"></i>MAJOR</span>':''}
         <span class="badge ${di.cls}">${di.label}</span></div>
         <div class="meta"><span><i class="ph ph-map-pin"></i> ${r.place||"미정"}</span>
         ${mode==="upcoming"?`<span class="dday">${dday(dt)}</span>`:""}
