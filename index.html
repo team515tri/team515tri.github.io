@@ -186,6 +186,9 @@
   .card{background:var(--card);border:1px solid var(--line);border-radius:16px;
     padding:14px;margin-bottom:10px;display:flex;gap:12px;align-items:flex-start}
   .card.past{opacity:.5}
+  .card.major{border-color:rgba(232,178,58,.5);box-shadow:0 0 0 1px rgba(232,178,58,.22),0 6px 22px rgba(232,178,58,.13)}
+  .major-ic{color:#e8b23a;margin-right:5px;vertical-align:-1px}
+  .uprow .major-ic{margin-right:3px;font-size:13px}
   .date{flex:0 0 52px;text-align:center;background:var(--card2);border-radius:11px;padding:8px 4px}
   .date .d{font-size:21px;font-weight:800;line-height:1}
   .date .m{font-size:10px;color:var(--sub);margin-top:3px}
@@ -496,7 +499,7 @@ function renderHome(){
   if(up.length){
     const r=up[0],dt=r.p.dt,di=DIST[r.dist]||DIST.etc;
     hero.innerHTML=`<div class="hero">
-      <div class="label">NEXT RACE · ${di.label}</div>
+      <div class="label">${r.major?'<i class="ph ph-crown" style="color:#e8b23a;margin-right:5px;vertical-align:-1px"></i>MAJOR · ':'NEXT RACE · '}${di.label}</div>
       <div class="rname">${r.name}</div>
       <div class="rmeta"><i class="ph ph-map-pin"></i> ${r.place||"장소 미정"} · ${dt.getFullYear()}.${dt.getMonth()+1}${r.p.tbd?" (날짜 미정)":"."+(r.p.tbd?"":dt.getDate())}</div>
       <div class="dd">${dday(dt)}</div>
@@ -515,7 +518,7 @@ function renderHome(){
   ul.innerHTML=rest.length?rest.map(r=>{const dt=r.p.dt,di=DIST[r.dist]||DIST.etc;
     return `<div class="uprow">
       <span class="upd">${r.p.tbd?(dt.getMonth()+1)+"월":(dt.getMonth()+1)+"/"+dt.getDate()}</span>
-      <span class="upn">${r.name}</span>
+      <span class="upn">${r.major?'<i class="ph ph-crown major-ic"></i>':''}${r.name}</span>
       <span class="badge ${di.cls}">${di.label}</span>
       <span class="updd">${dday(dt)}</span></div>`;}).join("")
     :`<div class="note" style="text-align:center">이후 예정 레이스는 아직 없습니다</div>`;
@@ -552,10 +555,10 @@ function renderRaces(mode){
     const cnt=r.members?r.members.length:0;
     const mem=cnt?`<span class="chip cnt"><i class="ph ph-users"></i> ${cnt}명</span>`+r.members.map(m=>`<span class="chip">${m}</span>`).join("")
       :`<span class="chip empty">참가자 모집 중</span>`;
-    html+=`<div class="card ${mode==='past'?'past':''}">
+    html+=`<div class="card ${mode==='past'?'past':''}${r.major?' major':''}">
       <div class="date"><div class="d">${r.p.tbd?"?":dt.getDate()}</div>
         <div class="m">${MON[dt.getMonth()]}</div><div class="y">${dt.getFullYear()}</div></div>
-      <div class="cbody"><div class="row1"><span class="rn">${r.name}</span>
+      <div class="cbody"><div class="row1"><span class="rn">${r.major?'<i class="ph ph-crown major-ic"></i>':''}${r.name}</span>
         <span class="badge ${di.cls}">${di.label}</span></div>
         <div class="meta"><span><i class="ph ph-map-pin"></i> ${r.place||"미정"}</span>
         ${mode==="upcoming"?`<span class="dday">${dday(dt)}</span>`:""}

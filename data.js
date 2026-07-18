@@ -14,8 +14,9 @@ const DATA = {
   SHEET_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSKQU6Nw8UT2V8MVDWrVKYwwKoE4MC4-YarjCV1rX2eK7kA3jtwRntHFGg6nm_erM_wTVtWlszk__zW/pub?output=csv",
 
   /* ───── 레이스 캘린더 (시트 미설정 시 기본값 / 폴백) ─────
-     dist: sprint | oly | half | full | etc
+     dist: sprint | oly | half | full | marathon | etc
      members: 참가 확정/예정 멤버 (없으면 [])
+     major: true → 금색 👑 크라운 + 글로우로 강조 (풀아이언맨·월드마라톤메이저 등 큰 대회만)
      ※ 아래는 예시 — 실제 대회 날짜는 확인 후 입력하세요(미정은 XX 유지). */
   races: [
     { date:"2026-06-14", name:"IRONMAN 70.3 Eagleman", dist:"half", place:"Cambridge, MD",
@@ -29,13 +30,13 @@ const DATA = {
     { date:"2026-07-19", name:"SuperTri NJ", dist:"oly",  place:"New Jersey",
       members:["Bosco","Ray","Junho"] },
     { date:"2026-09-19", name:"IRONMAN Maryland", dist:"full", place:"Cambridge, MD",
-      members:["Junho"] },
+      members:["Junho"], major:true },
     { date:"2026-09-26", name:"IRONMAN 70.3 Jones Beach", dist:"half", place:"Jones Beach, NY",
       members:["Bosco"] },
     { date:"2026-10-10", name:"Big Apple Triathlon", dist:"oly", place:"New York",
       members:["Bosco","Ray"] },
     { date:"2026-10-11", name:"Chicago Marathon", dist:"marathon", place:"Chicago, IL",
-      members:["Sam"] },
+      members:["Sam"], major:true },
     { date:"2026-10-18", name:"Atlantic City Marathon", dist:"marathon", place:"Atlantic City, NJ",
       members:["John","Junho"] },
     { date:"2026-11-22", name:"Philadelphia Marathon", dist:"marathon", place:"Philadelphia, PA",
