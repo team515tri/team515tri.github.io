@@ -24,7 +24,7 @@
     --bg:#0b0e14; --card:#151a24; --card2:#1b212e;
     --ink:#e8edf5; --sub:#8b95a7; --line:#262d3a;
     --accent:#d2515e;
-    --sprint:#3ec9a7; --oly:#4d9fff; --half:#ff9f43; --full:#ff5a3c; --etc:#9b8cff;
+    --sprint:#3ec9a7; --oly:#4d9fff; --half:#ff9f43; --full:#ff5a3c; --etc:#9b8cff; --marathon:#d46aa8;
     --nav-h:64px; --safe-b:env(safe-area-inset-bottom,0px);
   }
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -196,6 +196,7 @@
   .badge{font-size:10px;font-weight:700;padding:3px 7px;border-radius:6px;color:#0b0e14;white-space:nowrap}
   .b-sprint{background:var(--sprint)} .b-oly{background:var(--oly)}
   .b-half{background:var(--half)} .b-full{background:var(--full);color:#fff} .b-etc{background:var(--etc)}
+  .b-marathon{background:var(--marathon);color:#fff}
   .meta{color:var(--sub);font-size:12px;margin-top:4px;display:flex;gap:9px;flex-wrap:wrap}
   .dday{color:var(--accent);font-weight:700}
   .members{margin-top:9px;display:flex;gap:5px;flex-wrap:wrap}
@@ -444,7 +445,8 @@
 <script src="data.js"></script>
 <script>
 const DIST={sprint:{label:"Sprint",cls:"b-sprint"},oly:{label:"Olympic",cls:"b-oly"},
-  half:{label:"70.3",cls:"b-half"},full:{label:"140.6",cls:"b-full"},etc:{label:"기타",cls:"b-etc"}};
+  half:{label:"70.3",cls:"b-half"},full:{label:"140.6",cls:"b-full"},
+  marathon:{label:"Marathon",cls:"b-marathon"},etc:{label:"기타",cls:"b-etc"}};
 const MON=["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
 
 function parse(d){const tbd=/XX/i.test(d);const dt=new Date(d.replace(/XX/i,"01")+"T00:00:00");
