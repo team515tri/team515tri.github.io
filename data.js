@@ -44,13 +44,17 @@ const DATA = {
     { date:"2026-10-18", name:"Atlantic City Marathon", dist:"marathon", place:"Atlantic City, NJ",
       members:["John","Junho"] },
     { date:"2026-11-01", name:"TCS New York City Marathon", dist:"marathon", place:"New York, NY",
-      members:[], major:true },
+      members:["Ray"], major:true },
     { date:"2026-11-22", name:"Philadelphia Marathon", dist:"marathon", place:"Philadelphia, PA",
       members:["John"] },
     { date:"2027-07-25", name:"IRONMAN Lake Placid", dist:"full", place:"Lake Placid, NY",
       members:["Bosco","Ray","Sam","John","Junho"], major:true, note:"팀 전원 참가 예정" },
     // { date:"2026-08-XX", name:"대회명", dist:"sprint", place:"장소", members:["이름","이름"] },
   ],
+
+  /* ───── 취소된 레이스 (시트에 행이 남아 있어도 앱에서 숨김) ─────
+     시트 행을 지우는 게 정석. 여기 이름을 적으면 임시로 안 보이게 함. */
+  hideRaces: ["IRONMAN 70.3 Musselman"],
 
   /* ───── 주간 정기 훈련 (새벽 5:15~5:30 시작) ───── */
   training: [
