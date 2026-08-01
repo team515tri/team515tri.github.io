@@ -187,8 +187,15 @@
     padding:14px;margin-bottom:10px;display:flex;gap:12px;align-items:flex-start}
   .card.past{opacity:.5}
   .card.major{border-color:rgba(232,178,58,.5);box-shadow:0 0 0 1px rgba(232,178,58,.22),0 6px 22px rgba(232,178,58,.13)}
+  .card.iron{border-color:rgba(226,32,42,.55);box-shadow:0 0 0 1px rgba(226,32,42,.25),0 6px 22px rgba(226,32,42,.16)}
   .major-ic{color:#e8b23a;margin-right:5px;vertical-align:-1px}
   .uprow .major-ic{margin-right:3px;font-size:13px}
+  /* 풀 아이언맨 전용 뱃지 (140.6) — MAJOR 크라운 대신 사용 */
+  .b-iron{background:linear-gradient(135deg,#e2202a,#a5121a);color:#fff;letter-spacing:.6px;
+    box-shadow:0 0 10px rgba(226,32,42,.5)}
+  .b-iron img.mdot{height:11px;margin-right:4px;vertical-align:-2px}
+  .iron-lb{color:#ff4a53;font-weight:800}
+  .iron-lb img.mdot{height:14px;margin-right:6px;vertical-align:-3px}
   .date{flex:0 0 52px;text-align:center;background:var(--card2);border-radius:11px;padding:8px 4px}
   .date .d{font-size:21px;font-weight:800;line-height:1}
   .date .m{font-size:10px;color:var(--sub);margin-top:3px}
@@ -453,6 +460,11 @@ const DIST={sprint:{label:"Sprint",cls:"b-sprint"},oly:{label:"Olympic",cls:"b-o
   half:{label:"70.3",cls:"b-half"},full:{label:"140.6",cls:"b-full"},
   marathon:{label:"Marathon",cls:"b-marathon"},etc:{label:"기타",cls:"b-etc"}};
 const MON=["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+/* 풀 아이언맨(140.6)은 MAJOR 크라운 대신 빨간 IRONMAN 뱃지로 표시.
+   DATA.ironLogo에 이미지 경로를 넣으면 워드마크 앞에 로고가 붙음(없으면 글자만). */
+const isIron=r=>r.dist==="full";
+const mdot=()=>DATA.ironLogo?`<img class="mdot" src="${DATA.ironLogo}" alt="">`:"";
+const ironBadge=()=>`<span class="badge b-iron">${mdot()}IRONMAN 140.6</span>`;
 
 function parse(d){const tbd=/XX/i.test(d);const dt=new Date(d.replace(/XX/i,"01")+"T00:00:00");
   return{dt,tbd,valid:!isNaN(dt)};}
@@ -501,7 +513,8 @@ function renderHome(){
   if(up.length){
     const r=up[0],dt=r.p.dt,di=DIST[r.dist]||DIST.etc;
     hero.innerHTML=`<div class="hero">
-      <div class="label">${r.major?'<i class="ph ph-crown" style="color:#e8b23a;margin-right:5px;vertical-align:-1px"></i>MAJOR · ':'NEXT RACE · '}${di.label}</div>
+      <div class="label">${isIron(r)?`<span class="iron-lb">${mdot()}IRONMAN · 140.6</span>`
+        :(r.major?'<i class="ph ph-crown" style="color:#e8b23a;margin-right:5px;vertical-align:-1px"></i>MAJOR · ':'NEXT RACE · ')+di.label}</div>
       <div class="rname">${r.name}</div>
       <div class="rmeta"><i class="ph ph-map-pin"></i> ${r.place||"장소 미정"} · ${dt.getFullYear()}.${dt.getMonth()+1}${r.p.tbd?" (날짜 미정)":"."+(r.p.tbd?"":dt.getDate())}</div>
       <div class="dd">${dday(dt)}</div>
@@ -521,8 +534,9 @@ function renderHome(){
     return `<div class="uprow">
       <span class="upd">${r.p.tbd?(dt.getMonth()+1)+"월":(dt.getMonth()+1)+"/"+dt.getDate()}</span>
       <span class="upn">${r.name}</span>
-      ${r.major?'<span class="badge b-major"><i class="ph ph-crown"></i>MAJOR</span>':''}
-      <span class="badge ${di.cls}">${di.label}</span>
+      ${isIron(r)?ironBadge()
+        :(r.major?'<span class="badge b-major"><i class="ph ph-crown"></i>MAJOR</span>':'')
+         +`<span class="badge ${di.cls}">${di.label}</span>`}
       <span class="updd">${dday(dt)}</span></div>`;}).join("")
     :`<div class="note" style="text-align:center">이후 예정 레이스는 아직 없습니다</div>`;
 
@@ -558,12 +572,13 @@ function renderRaces(mode){
     const cnt=r.members?r.members.length:0;
     const mem=cnt?`<span class="chip cnt"><i class="ph ph-users"></i> ${cnt}명</span>`+r.members.map(m=>`<span class="chip">${m}</span>`).join("")
       :`<span class="chip empty">참가자 모집 중</span>`;
-    html+=`<div class="card ${mode==='past'?'past':''}${r.major?' major':''}">
+    html+=`<div class="card ${mode==='past'?'past':''}${isIron(r)?' iron':(r.major?' major':'')}">
       <div class="date"><div class="d">${r.p.tbd?"?":dt.getDate()}</div>
         <div class="m">${MON[dt.getMonth()]}</div><div class="y">${dt.getFullYear()}</div></div>
       <div class="cbody"><div class="row1"><span class="rn">${r.name}</span>
-        ${r.major?'<span class="badge b-major"><i class="ph ph-crown"></i>MAJOR</span>':''}
-        <span class="badge ${di.cls}">${di.label}</span></div>
+        ${isIron(r)?ironBadge()
+          :(r.major?'<span class="badge b-major"><i class="ph ph-crown"></i>MAJOR</span>':'')
+           +`<span class="badge ${di.cls}">${di.label}</span>`}</div>
         <div class="meta"><span><i class="ph ph-map-pin"></i> ${r.place||"미정"}</span>
         ${mode==="upcoming"?`<span class="dday">${dday(dt)}</span>`:""}
         ${r.p.tbd?`<span style="color:#ff9f43"><i class="ph ph-warning-circle"></i> 날짜 미정</span>`:""}
