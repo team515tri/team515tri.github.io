@@ -717,7 +717,8 @@ async function loadRaces(){
   sheet.forEach(r=>map.set(key(r),r));
   local.forEach(r=>{
     const k=key(r),e=map.get(k);
-    if(e){if(r.photos)e.photos=r.photos;if(r.result)e.result=r.result;if(r.video)e.video=r.video;}
+    if(e){if(r.photos)e.photos=r.photos;if(r.result)e.result=r.result;if(r.video)e.video=r.video;
+          if(r.results)e.results=r.results;if(r.major)e.major=r.major;if(r.note)e.note=r.note;}
     else map.set(k,r);                       // 시트에 없는 로컬 레이스(예: Eagleman) 추가
   });
   // 취소된 레이스: 시트에 행이 남아 있어도 앱에선 숨김 (DATA.hideRaces)

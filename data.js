@@ -10,7 +10,9 @@ const DATA = {
      비워두면 아래 races 기본값을 사용합니다.
      설정하면 운영진 누구나 시트만 고쳐서 레이스를 추가/수정할 수 있습니다.
      (시트 → 파일 → 공유 → 웹에 게시 → CSV → 나온 링크를 여기 붙여넣기)
-     ※ 시트가 비었거나 오프라인이면 자동으로 아래 races 기본값으로 폴백 */
+     ※ 시트가 비었거나 오프라인이면 자동으로 아래 races 기본값으로 폴백
+     ※ 원본 시트(편집용): https://docs.google.com/spreadsheets/d/1gKnWseD7YtM_8bCfMoAu_Ds3Gu0ieAGbOFaPefvllZw/edit
+        아래 SHEET_CSV_URL은 그 시트의 "웹에 게시" 읽기전용 CSV 링크 */
   SHEET_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSKQU6Nw8UT2V8MVDWrVKYwwKoE4MC4-YarjCV1rX2eK7kA3jtwRntHFGg6nm_erM_wTVtWlszk__zW/pub?output=csv",
 
   /* ───── 레이스 캘린더 (시트 미설정 시 기본값 / 폴백) ─────
