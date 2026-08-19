@@ -32,15 +32,16 @@ const DATA = {
     { date:"2026-07-19", name:"SuperTri NJ", dist:"oly",  place:"New Jersey",
       members:["Bosco","Ray","Junho"] },
     { date:"2026-08-08", name:"2026 USA Triathlon Nationals", dist:"oly", place:"Milwaukee, WI",
-      members:["Ray"] },
+      members:["Ray"], results:[{name:"Ray Lee", time:"2:35:51"}] },
     { date:"2026-08-09", name:"Staten Island Triathlon", dist:"sprint", place:"Staten Island, NY",
-      members:["Bosco"] },
+      members:["Bosco","Nick"],
+      results:[{name:"Bosco Park", time:"1:09:21", note:"AG M30-39 5위 · 전체 16/186"}] },
     { date:"2026-09-19", name:"IRONMAN Maryland", dist:"full", place:"Cambridge, MD",
       members:["Junho"], major:true },
     { date:"2026-09-26", name:"IRONMAN 70.3 Jones Beach", dist:"half", place:"Jones Beach, NY",
       members:["Bosco"] },
     { date:"2026-10-10", name:"Big Apple Triathlon", dist:"oly", place:"New York",
-      members:["Bosco","Ray"] },
+      members:["Bosco","Ray","Nick"] },
     { date:"2026-10-11", name:"Chicago Marathon", dist:"marathon", place:"Chicago, IL",
       members:["Sam"], major:true },
     { date:"2026-10-18", name:"Atlantic City Marathon", dist:"marathon", place:"Atlantic City, NJ",
@@ -49,8 +50,11 @@ const DATA = {
       members:["Ray"], major:true },
     { date:"2026-11-22", name:"Philadelphia Marathon", dist:"marathon", place:"Philadelphia, PA",
       members:["John"] },
+    { date:"2026-12-13", name:"IRONMAN 70.3 Florida", dist:"half", place:"Haines City, FL",
+      members:["Nick"] },
     { date:"2027-07-25", name:"IRONMAN Lake Placid", dist:"full", place:"Lake Placid, NY",
-      members:["Bosco","Ray","Sam","John","Junho"], major:true, note:"팀 전원 참가 예정" },
+      members:["Bosco","Ray","Sam","John","Junho","Jaesun","Nick","Hugh","Zeno"],
+      major:true, note:"팀 전원 참가 예정" },
     // { date:"2026-08-XX", name:"대회명", dist:"sprint", place:"장소", members:["이름","이름"] },
   ],
 
@@ -64,15 +68,17 @@ const DATA = {
      시트 행을 지우는 게 정석. 여기 이름을 적으면 임시로 안 보이게 함. */
   hideRaces: ["IRONMAN 70.3 Musselman"],
 
-  /* ───── 주간 정기 훈련 (새벽 5:15~5:30 시작) ───── */
+  /* ───── 주간 정기 훈련 (새벽 5:30 시작 · 2026-08-05 공식 공지) ───── */
   training: [
-    { day:"화", icon:"ph-bicycle",          title:"인터벌 라이딩", type:"bike" },
-    { day:"목", icon:"ph-person-simple-run", title:"인터벌 러닝",   type:"run" },
-    { day:"금", icon:"ph-person-simple-swim",title:"수영 / 오픈워터", type:"swim" },
-    { day:"토", icon:"ph-bicycle",          title:"롱 라이딩",     type:"bike" },
-    { day:"일", icon:"ph-person-simple-run", title:"롱 런",        type:"run" },
+    { day:"월", icon:"ph-person-simple-swim",title:"리커버리 + 수영",     type:"swim" },
+    { day:"화", icon:"ph-bicycle",          title:"템포 라이딩 + 보강",   type:"bike" },
+    { day:"수", icon:"ph-person-simple-run", title:"이지 런 + 수영",      type:"run" },
+    { day:"목", icon:"ph-person-simple-run", title:"인터벌 러닝 + 보강",  type:"run" },
+    { day:"금", icon:"ph-person-simple-swim",title:"오픈워터 수영",       type:"swim" },
+    { day:"토", icon:"ph-bicycle",          title:"롱 라이딩 + 브릭 런",  type:"bike" },
+    { day:"일", icon:"ph-person-simple-run", title:"롱 런",              type:"run" },
   ],
-  trainingNote: "모든 훈련 새벽 5:15~5:30 시작 · 시즌·일출·날씨에 따라 조정 · 주 1회 이상 참여 필수",
+  trainingNote: "모든 훈련 새벽 5:30 시작 (중요한 날은 5:15) · 시즌·일출·날씨에 따라 조정 · 주 1회 이상 참여 필수",
 
   /* ───── 팀 레벨 (아이언맨 70.3 기준) ───── */
   levels: [
@@ -112,10 +118,18 @@ const DATA = {
   /* ───── 운영진 ───── */
   staff: [
     { role:"팀장", name:"Ray Lee" },
-    { role:"부팀장", name:"Sam" },
-    { role:"부팀장", name:"Junho" },
+    { role:"부팀장", name:"Sam Han" },
+    { role:"부팀장", name:"Junho Lee" },
     { role:"총무", name:"John Kim" },
-    { role:"대외홍보부장", name:"Bosco" },
+    { role:"대외홍보부장", name:"Bosco Park" },
+  ],
+
+  /* ───── 창단 멤버 (2026 시즌) ─────
+     rosterTitle 을 비우면 섹션 자체가 안 보임. */
+  rosterTitle: "창단 멤버 · 2026",
+  roster: [
+    "Ray Lee", "Sam Han", "Junho Lee", "John Kim", "Bosco Park",
+    "Jaesun Lee", "Hugh Shim", "Zeno Cho", "Jaeseong Park", "Nick Chung",
   ],
 
   /* ───── 홈 하이라이트 (공개) ─────

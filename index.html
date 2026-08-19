@@ -99,6 +99,7 @@
   .rec-m{color:var(--sub);font-size:12px;margin:4px 0 8px}
   .rec-row{display:flex;justify-content:space-between;padding:7px 0;border-top:1px solid var(--line)}
   .rec-n{font-weight:600;font-size:14px}
+  .rec-note{display:block;font-weight:500;font-size:12px;color:var(--sub);margin-top:2px}
   .rec-t{font-weight:800;font-size:14px;color:var(--accent);font-variant-numeric:tabular-nums}
 
   /* ── 갤러리 ── */
@@ -249,6 +250,9 @@
   .welcome{display:flex;gap:10px;align-items:flex-start;background:var(--card);border:1px solid var(--line);
     border-radius:12px;padding:13px 14px;margin-bottom:8px;font-size:14px;line-height:1.5}
   .wc-dot{color:var(--accent);font-weight:800;flex:0 0 auto}
+  .roster{display:flex;flex-wrap:wrap;gap:7px}
+  .rchip{background:var(--card);border:1px solid var(--line);border-radius:999px;
+         padding:6px 12px;font-size:13px;font-weight:600}
   .staffcard{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:2px 14px}
   .staffrow{display:flex;justify-content:space-between;align-items:center;
     padding:12px 0;border-bottom:1px solid var(--line)}
@@ -407,6 +411,9 @@
 
     <div class="section-title">운영진</div>
     <div id="staffList"></div>
+
+    <div class="section-title" id="rosterTitle" hidden></div>
+    <div id="rosterList"></div>
 
     <a class="joinbtn" id="joinBtn" href="#" target="_blank" rel="noopener">Instagram DM으로 문의 →</a>
     <footer>관심 있으면 언제든 인스타 DM 주세요 · 운영진이 직접 안내합니다</footer>
@@ -608,6 +615,14 @@ function renderClub(){
   document.getElementById("staffList").innerHTML=
     `<div class="staffcard">`+DATA.staff.map(s=>
       `<div class="staffrow"><span class="sr">${s.role}</span><span class="sn">${s.name}</span></div>`).join("")+`</div>`;
+
+  // 창단 멤버 로스터 (rosterTitle 비면 숨김)
+  const rt=document.getElementById("rosterTitle"), rl=document.getElementById("rosterList");
+  const roster=DATA.roster||[];
+  if(DATA.rosterTitle&&roster.length){
+    rt.hidden=false; rt.textContent=DATA.rosterTitle;
+    rl.innerHTML=`<div class="roster">`+roster.map(n=>`<span class="rchip">${n}</span>`).join("")+`</div>`;
+  }else{ rt.hidden=true; rl.innerHTML=""; }
 }
 
 /* 기록 (결과 보드 + 갤러리) */
@@ -626,7 +641,7 @@ function renderResults(){
     return `<div class="rec"><div class="rec-h"><span class="rn">${r.name}</span>
       <span class="badge ${di.cls}">${di.label}</span></div>
       <div class="rec-m">${dt.getFullYear()}.${dt.getMonth()+1}.${dt.getDate()} · ${r.place||""}</div>
-      ${r.results.map(x=>`<div class="rec-row"><span class="rec-n">${x.name}</span><span class="rec-t">${x.time}</span></div>`).join("")}</div>`;
+      ${r.results.map(x=>`<div class="rec-row"><span class="rec-n">${x.name}${x.note?`<span class="rec-note">${x.note}</span>`:""}</span><span class="rec-t">${x.time}</span></div>`).join("")}</div>`;
   }).join(""):`<div class="note" style="text-align:center">아직 등록된 기록이 없습니다</div>`;
 }
 
