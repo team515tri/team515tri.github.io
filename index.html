@@ -184,6 +184,12 @@
 
   /* ── race card ── */
   .month{font-size:12px;font-weight:700;color:var(--sub);letter-spacing:1px;margin:20px 4px 8px}
+  .sect{display:flex;align-items:center;gap:8px;margin:28px 4px 4px;font-size:14px;font-weight:800;color:var(--ink)}
+  .sect:first-child{margin-top:6px}
+  .sect i{color:var(--accent);font-size:16px}
+  .sect .sc{margin-left:auto;font-size:11px;font-weight:700;color:var(--sub);
+    background:var(--card2);border:1px solid var(--line);border-radius:99px;padding:3px 9px}
+  .sect-sub{font-size:12px;color:var(--sub);margin:0 4px 4px;line-height:1.5}
   .card{background:var(--card);border:1px solid var(--line);border-radius:16px;
     padding:14px;margin-bottom:10px;display:flex;gap:12px;align-items:flex-start}
   .card.past{opacity:.5}
@@ -468,6 +474,7 @@ const DIST={sprint:{label:"Sprint",cls:"b-sprint"},oly:{label:"Olympic",cls:"b-o
   half:{label:"70.3",cls:"b-half"},full:{label:"140.6",cls:"b-full"},
   marathon:{label:"Marathon",cls:"b-marathon"},etc:{label:"기타",cls:"b-etc"}};
 const MON=["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+const hasMem=r=>!!(r.members&&r.members.length);
 /* 풀 아이언맨(140.6)은 MAJOR 크라운 대신 빨간 IRONMAN 뱃지로 표시.
    DATA.ironLogo에 이미지 경로를 넣으면 워드마크 앞에 로고가 붙음(없으면 글자만). */
 const isIron=r=>r.dist==="full";
@@ -515,8 +522,10 @@ function go(v){
 /* 홈 */
 function renderHome(){
   const n=new Date();n.setHours(0,0,0,0);
-  const up=DATA.races.map(r=>({...r,p:parse(r.date)})).filter(r=>r.p.valid&&r.p.dt>=n)
+  const all=DATA.races.map(r=>({...r,p:parse(r.date)})).filter(r=>r.p.valid&&r.p.dt>=n)
     .sort((a,b)=>a.p.dt-b.p.dt);
+  const up=all.filter(hasMem);          // 출전 확정 (홈 히어로·목록)
+  const open=all.filter(r=>!hasMem(r)); // 참가 가능 (개수만 안내, 상세는 레이스 탭)
   const hero=document.getElementById("hero");
   if(up.length){
     const r=up[0],dt=r.p.dt,di=DIST[r.dist]||DIST.etc;
@@ -532,13 +541,18 @@ function renderHome(){
     </div>`;
   } else {
     hero.innerHTML=`<div class="hero"><div class="label">NEXT RACE</div>
-      <div class="rname">예정된 레이스 없음</div>
-      <div class="ddsub" style="margin-top:10px">대회 등록하면 보스코에게 알려주세요</div></div>`;
+      <div class="rname">출전 확정 레이스 없음</div>
+      <div class="ddsub" style="margin-top:10px">${open.length?`참가 가능 대회 ${open.length}개 · 레이스 탭에서 확인`:"대회 등록하면 보스코에게 알려주세요"}</div></div>`;
   }
   // 예정 레이스 목록 (다음 레이스는 위에 크게 나오므로 제외)
   const rest=up.slice(1);
   const ul=document.getElementById("upcomingList");
-  ul.innerHTML=rest.length?rest.map(r=>{const dt=r.p.dt,di=DIST[r.dist]||DIST.etc;
+  const openLine=open.length
+    ? `<div class="uprow" onclick="go('race')" style="cursor:pointer;border-style:dashed">
+         <span class="upd"><i class="ph ph-plus-circle"></i></span>
+         <span class="upn">참가 가능 대회 ${open.length}개</span>
+         <span class="updd">보기 <i class="ph ph-caret-right"></i></span></div>` : "";
+  ul.innerHTML=(rest.length?rest.map(r=>{const dt=r.p.dt,di=DIST[r.dist]||DIST.etc;
     return `<div class="uprow">
       <span class="upd">${r.p.tbd?(dt.getMonth()+1)+"월":(dt.getMonth()+1)+"/"+dt.getDate()}</span>
       <span class="upn">${r.name}</span>
@@ -546,7 +560,7 @@ function renderHome(){
         :(r.major?'<span class="badge b-major"><i class="ph ph-crown"></i>MAJOR</span>':'')
          +`<span class="badge ${di.cls}">${di.label}</span>`}
       <span class="updd">${dday(dt)}</span></div>`;}).join("")
-    :`<div class="note" style="text-align:center">이후 예정 레이스는 아직 없습니다</div>`;
+    :`<div class="note" style="text-align:center">이후 출전 확정 레이스는 아직 없습니다</div>`)+openLine;
 
   // 주간 훈련 미리보기
   document.getElementById("trainPreview").innerHTML=DATA.training.map(t=>
@@ -573,7 +587,16 @@ function renderRaces(mode){
   if(!items.length){list.innerHTML=`<div class="empty-state">${mode==="upcoming"
     ?"등록된 다가오는 레이스가 없습니다.<br>대회 등록하면 알려주세요":"지난 레이스 기록이 없습니다."}</div>`;return;}
   let html="",cur="";
-  items.forEach(r=>{
+  // 다가오는 레이스는 "출전 확정"(멤버 있음) / "참가 가능"(멤버 없음)으로 나눠 표시
+  const groups = mode==="upcoming"
+    ? [{t:"우리 팀 출전", ic:"ph-users-three", sub:"멤버가 등록을 마친 대회", list:items.filter(hasMem)},
+       {t:"참가 가능 대회", ic:"ph-plus-circle", sub:"아직 참가자가 없는 대회 — 함께 나갈 사람을 찾습니다", list:items.filter(r=>!hasMem(r))}]
+    : [{t:null, list:items}];
+  groups.forEach(g=>{
+  if(!g.list.length) return;
+  if(g.t){html+=`<div class="sect"><i class="ph ${g.ic}"></i>${g.t}<span class="sc">${g.list.length}</span></div>
+    <div class="sect-sub">${g.sub}</div>`;cur="";}
+  g.list.forEach(r=>{
     const dt=r.p.dt,di=DIST[r.dist]||DIST.etc;
     const ml=MON[dt.getMonth()]+" "+dt.getFullYear();
     if(ml!==cur){cur=ml;html+=`<div class="month">${ml}</div>`;}
@@ -593,7 +616,7 @@ function renderRaces(mode){
         ${r.results&&r.results.length?`<span class="rresult"><i class="ph ph-medal"></i> ${r.results.map(x=>x.name+" "+x.time).join(" · ")}</span>`:""}</div>
         ${r.note?`<div class="rnote">${r.note}</div>`:""}
         <div class="members">${mem}</div></div></div>`;
-  });
+  });});
   list.innerHTML=html;
 }
 
