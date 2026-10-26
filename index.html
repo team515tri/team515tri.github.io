@@ -226,6 +226,7 @@
   .ticon{font-size:22px}
   .ttitle{font-weight:700;font-size:15px}
   .note{color:var(--sub);font-size:12px;line-height:1.6;margin-top:8px;padding:0 4px}
+  .rnote{color:var(--sub);font-size:12px;line-height:1.5;margin-top:6px}
 
   /* ── levels ── */
   .lvl{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);
@@ -590,6 +591,7 @@ function renderRaces(mode){
         ${mode==="upcoming"?`<span class="dday">${dday(dt)}</span>`:""}
         ${r.p.tbd?`<span style="color:#ff9f43"><i class="ph ph-warning-circle"></i> 날짜 미정</span>`:""}
         ${r.results&&r.results.length?`<span class="rresult"><i class="ph ph-medal"></i> ${r.results.map(x=>x.name+" "+x.time).join(" · ")}</span>`:""}</div>
+        ${r.note?`<div class="rnote">${r.note}</div>`:""}
         <div class="members">${mem}</div></div></div>`;
   });
   list.innerHTML=html;
@@ -752,8 +754,12 @@ async function loadRaces(){
     else map.set(k,r);                       // 시트에 없는 로컬 레이스(예: Eagleman) 추가
   });
   // 취소된 레이스: 시트에 행이 남아 있어도 앱에선 숨김 (DATA.hideRaces)
+  // "이름" = 그 이름 전부 숨김 / "이름|YYYY-MM-DD" = 그 날짜 행만 숨김(일정 변경된 레이스)
   const hide=(DATA.hideRaces||[]).map(s=>s.toLowerCase().trim());
-  DATA.races=[...map.values()].filter(r=>!hide.includes((r.name||"").toLowerCase().trim()));
+  DATA.races=[...map.values()].filter(r=>{
+    const n=(r.name||"").toLowerCase().trim();
+    return !hide.includes(n)&&!hide.includes(n+"|"+(r.date||""));
+  });
 }
 
 async function init(){
