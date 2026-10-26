@@ -190,6 +190,13 @@
   .sect .sc{margin-left:auto;font-size:11px;font-weight:700;color:var(--sub);
     background:var(--card2);border:1px solid var(--line);border-radius:99px;padding:3px 9px}
   .sect-sub{font-size:12px;color:var(--sub);margin:0 4px 4px;line-height:1.5}
+  .reclock{text-align:center;background:var(--card);border:1px dashed var(--line);
+    border-radius:16px;padding:24px 16px}
+  .reclock i{font-size:26px;color:var(--sub)}
+  .reclock .rl-t{font-weight:800;margin-top:8px}
+  .reclock .rl-s{font-size:12.5px;color:var(--sub);margin-top:4px;line-height:1.5}
+  .reclock .rl-b{margin-top:14px;background:var(--accent);color:#fff;border:0;
+    border-radius:99px;padding:9px 20px;font-weight:700;font-size:13px;cursor:pointer}
   .card{background:var(--card);border:1px solid var(--line);border-radius:16px;
     padding:14px;margin-bottom:10px;display:flex;gap:12px;align-items:flex-start}
   .card.past{opacity:.5}
@@ -380,6 +387,12 @@
     <div id="raceList"></div>
 
     <div class="section-title">개인 기록</div>
+    <div id="resultLocked" class="reclock">
+      <i class="ph ph-lock-simple"></i>
+      <div class="rl-t">멤버 전용</div>
+      <div class="rl-s">개인 기록은 클럽 멤버만 볼 수 있습니다</div>
+      <button class="rl-b" onclick="openGate(null)">비밀번호 입력</button>
+    </div>
     <div id="resultList"></div>
 
     <footer>레이스 추가/수정 → 대외홍보부장 보스코</footer>
@@ -488,7 +501,7 @@ function dday(dt){const n=new Date();n.setHours(0,0,0,0);
   if(diff===0)return"D-DAY";return diff>0?"D-"+diff:"종료";}
 
 /* ───── 멤버 잠금 (홈·클럽 공개 / 레이스·훈련 멤버 전용) ───── */
-const GATED=["race","train"];
+const GATED=[];   // 탭 잠금 없음 — 캘린더/훈련 공개 (개인 기록 블록만 멤버 전용)
 const MEMBER_HASH="c4f0cd648fbceb710d1a4d4c817a1738e0140808763672a44088a177417382b3";   // 클럽 비번의 SHA-256 (평문 미보관)
 let unlocked=localStorage.getItem("t515_member")==="1";
 let pendingTab=null;
@@ -504,11 +517,12 @@ async function tryUnlock(){
   const v=document.getElementById("gateInput").value.trim();if(!v)return;
   if(await sha256(v)===MEMBER_HASH){
     unlocked=true;localStorage.setItem("t515_member","1");
-    updateNavLocks();closeGate();if(pendingTab)go(pendingTab);
+    updateNavLocks();closeGate();renderResults();if(pendingTab)go(pendingTab);
   } else document.getElementById("gateErr").textContent="비밀번호가 틀렸습니다";
 }
 function updateNavLocks(){
-  document.querySelectorAll("nav button .nav-lock").forEach(l=>l.style.display=unlocked?"none":"inline");
+  // 탭 잠금이 없어져 자물쇠 아이콘은 항상 숨김 (개인 기록 블록만 멤버 전용)
+  document.querySelectorAll("nav button .nav-lock").forEach(l=>l.style.display="none");
 }
 
 function go(v){
@@ -659,6 +673,9 @@ function buildGallery(){GALLERY=photoRaces().flatMap(r=>r.photos.map(src=>({src,
 
 /* 개인 기록 (멤버 전용 · 레이스 탭) */
 function renderResults(){
+  const lock=document.getElementById("resultLocked"),box=document.getElementById("resultList");
+  if(!unlocked){lock.style.display="";box.style.display="none";return;}
+  lock.style.display="none";box.style.display="";
   const done=DATA.races.map(r=>({...r,p:parse(r.date)}))
     .filter(r=>r.p.valid&&r.results&&r.results.length).sort((a,b)=>b.p.dt-a.p.dt);
   document.getElementById("resultList").innerHTML=done.length?done.map(r=>{
