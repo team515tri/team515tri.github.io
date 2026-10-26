@@ -68,21 +68,6 @@
   .btn.block{display:block;text-align:center;width:100%;padding:16px}
   .btn.disabled,.joinbtn.disabled{opacity:.45;pointer-events:none}
 
-  /* ── member gate ── */
-  .nav-lock{font-size:9px;margin-left:1px}
-  .gate{position:fixed;inset:0;background:rgba(5,7,11,.88);backdrop-filter:blur(6px);
-    display:none;align-items:center;justify-content:center;z-index:100;padding:24px}
-  .gate.on{display:flex}
-  .gate-box{background:var(--card);border:1px solid var(--line);border-radius:20px;
-    padding:28px 22px;max-width:340px;width:100%;text-align:center}
-  .gate-ico{font-size:34px}
-  .gate-t{font-size:18px;font-weight:800;margin-top:8px}
-  .gate-s{color:var(--sub);font-size:13px;margin:6px 0 16px;line-height:1.5}
-  .gate-box input{width:100%;background:var(--card2);border:1px solid var(--line);border-radius:12px;
-    padding:13px 14px;color:var(--ink);font-size:15px;text-align:center;outline:none}
-  .gate-box input:focus{border-color:var(--accent)}
-  .gate-err{color:#ff6b6b;font-size:13px;min-height:18px;margin:8px 0 4px}
-  .gate-cancel{background:none;border:none;color:var(--sub);font-size:13px;margin-top:12px;cursor:pointer}
 
   /* ── 예정 레이스 간단 목록 (홈) ── */
   .uplist{display:flex;flex-direction:column;gap:8px}
@@ -93,7 +78,6 @@
   .uprow .updd{font-size:12px;color:var(--sub);font-weight:700}
 
   /* ── 결과 보드 ── */
-  .rresult{color:var(--accent);font-weight:700}
   .rec{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:10px}
   .rec-h{display:flex;align-items:center;gap:8px}
   .rec-m{color:var(--sub);font-size:12px;margin:4px 0 8px}
@@ -190,13 +174,6 @@
   .sect .sc{margin-left:auto;font-size:11px;font-weight:700;color:var(--sub);
     background:var(--card2);border:1px solid var(--line);border-radius:99px;padding:3px 9px}
   .sect-sub{font-size:12px;color:var(--sub);margin:0 4px 4px;line-height:1.5}
-  .reclock{text-align:center;background:var(--card);border:1px dashed var(--line);
-    border-radius:16px;padding:24px 16px}
-  .reclock i{font-size:26px;color:var(--sub)}
-  .reclock .rl-t{font-weight:800;margin-top:8px}
-  .reclock .rl-s{font-size:12.5px;color:var(--sub);margin-top:4px;line-height:1.5}
-  .reclock .rl-b{margin-top:14px;background:var(--accent);color:#fff;border:0;
-    border-radius:99px;padding:9px 20px;font-weight:700;font-size:13px;cursor:pointer}
   .card{background:var(--card);border:1px solid var(--line);border-radius:16px;
     padding:14px;margin-bottom:10px;display:flex;gap:12px;align-items:flex-start}
   .card.past{opacity:.5}
@@ -386,14 +363,6 @@
     </div>
     <div id="raceList"></div>
 
-    <div class="section-title">개인 기록</div>
-    <div id="resultLocked" class="reclock">
-      <i class="ph ph-lock-simple"></i>
-      <div class="rl-t">멤버 전용</div>
-      <div class="rl-s">개인 기록은 클럽 멤버만 볼 수 있습니다</div>
-      <button class="rl-b" onclick="openGate(null)">비밀번호 입력</button>
-    </div>
-    <div id="resultList"></div>
 
     <footer>레이스 추가/수정 → 대외홍보부장 보스코</footer>
   </div>
@@ -454,23 +423,11 @@
   <button class="on" data-v="home" onclick="go('home')"><i class="ph ph-house ni"></i>홈</button>
   <button data-v="club" onclick="go('club')"><i class="ph ph-users-three ni"></i>클럽</button>
   <button data-v="gallery" onclick="go('gallery')"><i class="ph ph-images ni"></i>갤러리</button>
-  <button data-v="race" onclick="go('race')"><i class="ph ph-flag-checkered ni"></i>레이스<i class="ph ph-lock-simple nav-lock"></i></button>
-  <button data-v="train" onclick="go('train')"><i class="ph ph-calendar-dots ni"></i>훈련<i class="ph ph-lock-simple nav-lock"></i></button>
+  <button data-v="race" onclick="go('race')"><i class="ph ph-flag-checkered ni"></i>레이스</button>
+  <button data-v="train" onclick="go('train')"><i class="ph ph-calendar-dots ni"></i>훈련</button>
 </nav>
 
 <!-- ══════ 멤버 잠금 모달 ══════ -->
-<div class="gate" id="gate">
-  <div class="gate-box">
-    <div class="gate-ico"><i class="ph ph-lock-simple"></i></div>
-    <div class="gate-t">Team515 멤버 전용</div>
-    <div class="gate-s">레이스·훈련 정보는 멤버에게만 공개됩니다.<br>클럽 비밀번호를 입력하세요.</div>
-    <input id="gateInput" type="password" inputmode="text" placeholder="비밀번호" autocomplete="off"
-      onkeydown="if(event.key==='Enter')tryUnlock()">
-    <div class="gate-err" id="gateErr"></div>
-    <button class="btn primary block" onclick="tryUnlock()">잠금 해제</button>
-    <button class="gate-cancel" onclick="closeGate()">취소</button>
-  </div>
-</div>
 
 <!-- ══════ 사진 라이트박스 ══════ -->
 <div class="lb" id="lb" onclick="if(event.target.id==='lb')closeLB()">
@@ -500,33 +457,8 @@ function dday(dt){const n=new Date();n.setHours(0,0,0,0);
   const diff=Math.round((dt-n)/86400000);
   if(diff===0)return"D-DAY";return diff>0?"D-"+diff:"종료";}
 
-/* ───── 멤버 잠금 (홈·클럽 공개 / 레이스·훈련 멤버 전용) ───── */
-const GATED=[];   // 탭 잠금 없음 — 캘린더/훈련 공개 (개인 기록 블록만 멤버 전용)
-const MEMBER_HASH="c4f0cd648fbceb710d1a4d4c817a1738e0140808763672a44088a177417382b3";   // 클럽 비번의 SHA-256 (평문 미보관)
-let unlocked=localStorage.getItem("t515_member")==="1";
-let pendingTab=null;
-async function sha256(s){
-  const h=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(s));
-  return [...new Uint8Array(h)].map(x=>x.toString(16).padStart(2,"0")).join("");
-}
-function openGate(tab){pendingTab=tab;const g=document.getElementById("gate");
-  document.getElementById("gateErr").textContent="";document.getElementById("gateInput").value="";
-  g.classList.add("on");setTimeout(()=>document.getElementById("gateInput").focus(),60);}
-function closeGate(){document.getElementById("gate").classList.remove("on");}
-async function tryUnlock(){
-  const v=document.getElementById("gateInput").value.trim();if(!v)return;
-  if(await sha256(v)===MEMBER_HASH){
-    unlocked=true;localStorage.setItem("t515_member","1");
-    updateNavLocks();closeGate();renderResults();if(pendingTab)go(pendingTab);
-  } else document.getElementById("gateErr").textContent="비밀번호가 틀렸습니다";
-}
-function updateNavLocks(){
-  // 탭 잠금이 없어져 자물쇠 아이콘은 항상 숨김 (개인 기록 블록만 멤버 전용)
-  document.querySelectorAll("nav button .nav-lock").forEach(l=>l.style.display="none");
-}
 
 function go(v){
-  if(GATED.includes(v)&&!unlocked){openGate(v);return;}
   document.querySelectorAll(".view").forEach(s=>s.classList.remove("on"));
   document.getElementById("v-"+v).classList.add("on");
   document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("on",b.dataset.v===v));
@@ -627,7 +559,7 @@ function renderRaces(mode){
         <div class="meta"><span><i class="ph ph-map-pin"></i> ${r.place||"미정"}</span>
         ${mode==="upcoming"?`<span class="dday">${dday(dt)}</span>`:""}
         ${r.p.tbd?`<span style="color:#ff9f43"><i class="ph ph-warning-circle"></i> 날짜 미정</span>`:""}
-        ${r.results&&r.results.length?`<span class="rresult"><i class="ph ph-medal"></i> ${r.results.map(x=>x.name+" "+x.time).join(" · ")}</span>`:""}</div>
+</div>
         ${r.note?`<div class="rnote">${r.note}</div>`:""}
         <div class="members">${mem}</div></div></div>`;
   });});
@@ -671,21 +603,6 @@ function photoRaces(){return DATA.races.map(r=>({...r,p:parse(r.date)}))
   .filter(r=>r.p.valid&&r.photos&&r.photos.length).sort((a,b)=>b.p.dt-a.p.dt);}
 function buildGallery(){GALLERY=photoRaces().flatMap(r=>r.photos.map(src=>({src,cap:r.name})));}
 
-/* 개인 기록 (멤버 전용 · 레이스 탭) */
-function renderResults(){
-  const lock=document.getElementById("resultLocked"),box=document.getElementById("resultList");
-  if(!unlocked){lock.style.display="";box.style.display="none";return;}
-  lock.style.display="none";box.style.display="";
-  const done=DATA.races.map(r=>({...r,p:parse(r.date)}))
-    .filter(r=>r.p.valid&&r.results&&r.results.length).sort((a,b)=>b.p.dt-a.p.dt);
-  document.getElementById("resultList").innerHTML=done.length?done.map(r=>{
-    const dt=r.p.dt,di=DIST[r.dist]||DIST.etc;
-    return `<div class="rec"><div class="rec-h"><span class="rn">${r.name}</span>
-      <span class="badge ${di.cls}">${di.label}</span></div>
-      <div class="rec-m">${dt.getFullYear()}.${dt.getMonth()+1}.${dt.getDate()} · ${r.place||""}</div>
-      ${r.results.map(x=>`<div class="rec-row"><span class="rec-n">${x.name}${x.note?`<span class="rec-note">${x.note}</span>`:""}</span><span class="rec-t">${x.time}</span></div>`).join("")}</div>`;
-  }).join(""):`<div class="note" style="text-align:center">아직 등록된 기록이 없습니다</div>`;
-}
 
 /* 갤러리 (공개, 이벤트별) */
 function renderGallery(){
@@ -803,10 +720,10 @@ async function loadRaces(){
 }
 
 async function init(){
-  renderTrain();renderClub();setContactCTA();updateNavLocks(); // 정적 데이터 즉시 렌더
+  renderTrain();renderClub();setContactCTA(); // 정적 데이터 즉시 렌더
   await loadRaces();                          // 시트 시도
   buildGallery();                             // 사진 모음(홈·갤러리 공용)
-  renderHome();renderRaces("upcoming");renderResults();renderGallery();renderInsta();
+  renderHome();renderRaces("upcoming");renderGallery();renderInsta();
 }
 init();
 

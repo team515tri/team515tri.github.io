@@ -18,11 +18,13 @@ const DATA = {
   /* ───── 레이스 캘린더 (시트 미설정 시 기본값 / 폴백) ─────
      dist: sprint | oly | half | full | marathon | etc
      members: 참가 확정/예정 멤버 (없으면 [])
+     ※ 개인 기록(이름+기록)은 공개하지 않습니다 — results-private.json에 비공개 보관
+        (data.js는 사이트에 그대로 서빙되므로 여기 적으면 누구나 볼 수 있음)
      major: true → 금색 👑 크라운 + 글로우로 강조 (풀아이언맨·월드마라톤메이저 등 큰 대회만)
      ※ 아래는 예시 — 실제 대회 날짜는 확인 후 입력하세요(미정은 XX 유지). */
   races: [
     { date:"2026-06-14", name:"IRONMAN 70.3 Eagleman", dist:"half", place:"Cambridge, MD",
-      members:["Ray"], results:[{name:"Ray Lee", time:"5:19:12"}],
+      members:["Ray"],
       photos:["img/eagleman/01.jpg","img/eagleman/02.jpg","img/eagleman/03.jpg",
               "img/eagleman/04.jpg","img/eagleman/05.jpg","img/eagleman/06.jpg",
               "img/eagleman/07.jpg","img/eagleman/08.jpg","img/eagleman/09.jpg",
@@ -32,18 +34,15 @@ const DATA = {
     { date:"2026-07-19", name:"SuperTri NJ", dist:"oly",  place:"New Jersey",
       members:["Bosco","Ray","Junho"] },
     { date:"2026-08-08", name:"2026 USA Triathlon Nationals", dist:"oly", place:"Milwaukee, WI",
-      members:["Ray"], results:[{name:"Ray Lee", time:"2:35:51"}] },
+      members:["Ray"] },
     { date:"2026-08-09", name:"Staten Island Triathlon", dist:"sprint", place:"Staten Island, NY",
-      members:["Bosco","Nick"],
-      results:[{name:"Bosco Park", time:"1:09:21", note:"AG M30-39 5위 · 전체 16/186"}] },
+      members:["Bosco","Nick"] },
     { date:"2026-09-19", name:"IRONMAN Maryland", dist:"full", place:"Cambridge, MD",
       members:["Junho"], major:true },
     { date:"2026-10-24", name:"IRONMAN 70.3 Jones Beach", dist:"half", place:"Jones Beach, NY",
-      members:["Bosco"], note:"9/26 노리스터로 취소 → 10/24 재개최 (스윔 1500m 단축)",
-      results:[{name:"Bosco Park", time:"5:25:02", note:"AG M30-34 20위 · 전체 264위"}] },
+      members:["Bosco"], note:"9/26 노리스터로 취소 → 10/24 재개최 (스윔 1500m 단축)" },
     { date:"2026-10-10", name:"Big Apple Triathlon", dist:"oly", place:"New York",
-      members:["Bosco","Ray","Nick"],
-      results:[{name:"Bosco Park", time:"2:37:11", note:"AG M30-34 6위 · 전체 66위"}] },
+      members:["Bosco","Ray","Nick"] },
     { date:"2026-10-11", name:"Chicago Marathon", dist:"marathon", place:"Chicago, IL",
       members:["Sam"], major:true },
     { date:"2026-10-18", name:"Atlantic City Marathon", dist:"marathon", place:"Atlantic City, NJ",
