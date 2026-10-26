@@ -54,8 +54,12 @@ const DATA = {
     { date:"2026-12-13", name:"IRONMAN 70.3 Florida", dist:"half", place:"Haines City, FL",
       members:["Nick"] },
     /* ───── 2027 시즌 ───── */
+    { date:"2027-03-21", name:"United Airlines NYC Half", dist:"marathon", place:"New York, NY",
+      members:[], note:"하프 마라톤" },
     { date:"2027-04-18", name:"Jersey City Marathon & Half", dist:"marathon", place:"Jersey City, NJ",
       members:["Bosco"], note:"풀 / 하프 동시 개최" },
+    { date:"2027-04-24", name:"Spartan Ultra 50K", dist:"etc", place:"미정",
+      members:[], note:"50K · 장애물 60개" },
     { date:"2027-06-13", name:"IRONMAN 70.3 Lake George", dist:"half", place:"Lake George, NY",
       members:[], note:"★ 신규 대회 · 등록 10/29 오픈 · 70.3 월드챔피언십 슬롯 배정" },
     { date:"2027-06-13", name:"Escape the Cape Triathlon", dist:"sprint", place:"Lower Township, NJ",
