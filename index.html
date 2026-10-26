@@ -359,6 +359,10 @@ nav button{transition:color .2s}nav button.on{color:var(--accent)}
 
 .tp-label{font-size:11px;color:var(--sub);margin-top:8px}.tp .tpi{margin-top:8px}#homeTrainNote{max-width:620px;margin:15px auto 0}#v-home .install{margin-top:24px} .section-title{text-transform:none}
 #homeGallery{grid-template-rows:repeat(2,minmax(0,1fr));aspect-ratio:2.1}#homeGallery .gthumb{height:100%;aspect-ratio:auto;min-height:0} @media(max-width:600px){#homeGallery{aspect-ratio:1.45}}
+
+.season-preview{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.season-mini{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;text-align:left;color:var(--ink);cursor:pointer}.season-mini:hover{border-color:var(--accent)}.season-mini-top{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--accent);font-weight:700}.season-mini-top>span{margin-left:auto}.season-mini strong{display:block;font-size:15px;line-height:1.6;margin:14px 0 10px}.season-mini-days{display:block;font-size:12px;line-height:1.8;color:var(--sub)}
+.training-event{padding:24px;border:1px solid #674047;background:linear-gradient(120deg,#2a1c22,#15181d);border-radius:12px;margin-bottom:30px}.training-event h2{font-size:20px;margin:12px 0;line-height:1.5}.training-event p{font-size:14px;color:var(--sub);line-height:1.8}.season-block{margin:0 0 24px;border:1px solid var(--line);border-radius:14px;padding:24px}.season-heading{display:flex;align-items:center;gap:14px}.season-heading h2{font-size:25px;margin-top:4px}.season-icon{font-size:27px;color:var(--accent);background:var(--card2);padding:13px;border-radius:10px}.season-focus{font-size:15px;color:var(--sub);margin:18px 0;line-height:1.7}.season-session{display:flex;gap:20px;padding:17px 0;border-top:1px solid var(--line);font-size:15px}.season-session>span{min-width:58px;color:var(--accent);font-weight:700}.season-session p{font-size:13px;color:var(--sub);margin-top:6px;line-height:1.7}.training-message{border-left:2px solid var(--accent);padding:8px 0 8px 22px;margin:30px 0}.training-message p{font-size:16px;line-height:1.9;margin-top:12px}
+@media(max-width:600px){.season-preview{grid-template-columns:1fr;gap:10px}.season-mini{padding:18px}.season-mini strong{margin:8px 0;font-size:16px}.season-mini-days{font-size:13px}.season-block{padding:20px}.training-event h2{font-size:18px}.season-session{gap:12px;font-size:14px}}
 </style>
 </head>
 <body>
@@ -405,8 +409,8 @@ nav button{transition:color .2s}nav button.on{color:var(--accent)}
     </div>
 
     <!-- WHAT WE DO -->
-    <div class="section-heading"><div class="section-title">일주일의 훈련 루틴</div><button class="text-link" onclick="go('train')">일정 보기 ↗</button></div>
-    <div id="trainPreview" class="tprev"></div>
+    <div class="section-heading"><div class="section-title">시즌별 훈련 계획</div><button class="text-link" onclick="go('train')">일정 보기 ↗</button></div>
+    <div id="trainPreview" class="season-preview"></div>
     <div id="homeTrainNote" class="note" style="text-align:center"></div>
 
     <!-- NEXT RACE -->
@@ -462,7 +466,7 @@ nav button{transition:color .2s}nav button.on{color:var(--accent)}
   <header><div class="logo">훈련 안내</div>
     <div class="slogan">평일의 꾸준함이 주말의 거리를 만듭니다</div></header>
   <div class="wrap">
-    <p class="page-intro">수영 · 사이클 · 러닝을 일주일의 루틴으로.<br>훈련 시작 시간과 참여 기준을 아래에서 확인하세요.</p><div id="trainList"></div>
+    <p class="page-intro">2027 레이크플래시드를 향한 시즌별 훈련 계획.<br>각자의 일정에 맞춰 꾸준히 이어갑니다.</p><div id="trainList"></div>
     <div class="note" id="trainNote"></div>
     <div class="section-title">목표 기록별 팀 구성</div><p class="section-intro">70.3(하프 아이언맨) 완주 기록 기준입니다. 입문자는 철린이 팀으로 구분합니다.</p>
     <div id="levelList"></div>
@@ -490,7 +494,7 @@ nav button{transition:color .2s}nav button.on{color:var(--accent)}
 <div class="section-title">가입 전 궁금한 점</div>
     <div class="faq">
       <details><summary>철인 입문자도 함께할 수 있나요?</summary><p>입문자를 위한 철린이 팀이 있습니다. 대회 등록과 정기 훈련 참여 기준이 있으니, 현재 운동 경험과 대회 계획을 운영진에게 알려주세요.</p></details>
-      <details><summary>훈련은 언제 하나요?</summary><p>기본 시작 시간은 새벽 5:30, 중요한 날은 5:15입니다. 시즌·일출·날씨에 따라 조정하며, 주 1회 이상 팀 훈련에 참여합니다. 구체적인 집결 장소는 문의해 주세요.</p></details>
+      <details><summary>훈련은 언제 하나요?</summary><p>기본 시작 시간은 새벽 5:30, 중요한 날은 5:15입니다. 겨울·봄·여름 시즌별 계획으로 운영하며, 주 1회 이상 팀 훈련에 참여합니다. 개별 시간과 집결 장소는 카톡 공지를 확인해 주세요.</p></details>
       <details><summary>가입하려면 무엇이 필요한가요?</summary><p>최근 365일 이내 철인대회 등록 기록이 있거나, 가입 후 1개월 내 등록할 계획이 있어야 합니다. 마라톤·사이클·오픈워터 수영 선수는 운영진 승인과 정기 훈련 참여를 통해 준회원으로 함께할 수 있습니다.</p></details>
       <details><summary>가입 문의는 어떻게 하나요?</summary><p>인스타그램 @team515_tri에 DM을 보내주세요. 현재 운동 경험, 도전하고 싶은 대회, 궁금한 점을 적어주시면 운영진이 안내합니다. 회비와 준비 장비도 문의할 때 확인해 주세요.</p></details>
     </div>
@@ -606,9 +610,9 @@ function renderHome(){
       <span class="updd">${r.p.tbd?"날짜 미정":dday(dt)}</span></div>`;}).join("")
     :`<div class="note" style="text-align:center">이후 출전 확정 레이스는 아직 없습니다</div>`)+openLine;
 
-  // 주간 훈련 미리보기
-  document.getElementById("trainPreview").innerHTML=DATA.training.map(t=>
-    `<div class="tp"><div class="tpd">${t.day}</div><div class="tpi"><i class="ph ${t.icon}" aria-hidden="true"></i></div><div class="tp-label">${{swim:"수영",bike:"사이클",run:"러닝"}[t.type]||"훈련"}</div></div>`).join("");
+  // 시즌별 훈련 미리보기
+  document.getElementById("trainPreview").innerHTML=DATA.trainingSeasons.map(t=>
+    `<button class="season-mini" onclick="go('train')"><span class="season-mini-top"><i class="ph ${t.icon}" aria-hidden="true"></i>${t.name}<span aria-hidden="true">↗</span></span><strong>${t.focus}</strong><span class="season-mini-days">${t.sessions.map(x=>x.day+" "+x.title).join(" · ")}</span></button>`).join("");
 
   // 홈 갤러리 미리보기 (사진 6장, 있을 때만)
   const sec=document.getElementById("homeGallerySection");
@@ -666,9 +670,9 @@ function renderRaces(mode){
 
 /* 훈련 */
 function renderTrain(){
-  document.getElementById("trainList").innerHTML=DATA.training.map(t=>
-    `<div class="trow"><div class="tday">${t.day}</div>
-      <div class="ticon"><i class="ph ${t.icon}"></i></div><div class="ttitle">${t.title}</div></div>`).join("");
+  const event=DATA.trainingEvent;
+  document.getElementById("trainList").innerHTML=`<aside class="training-event"><span class="mini-label">UP NEXT · ${event.status}</span><h2>11월 14일 · ${event.title}</h2><p>${event.note}</p></aside>`+
+    DATA.trainingSeasons.map(t=>`<section class="season-block"><div class="season-heading"><span class="season-icon"><i class="ph ${t.icon}" aria-hidden="true"></i></span><div><span class="mini-label">${t.label}</span><h2>${t.name}</h2></div></div><p class="season-focus">${t.focus}</p><div class="season-sessions">${t.sessions.map(x=>`<div class="season-session"><span>${x.day}</span><div><strong>${x.title}</strong>${x.detail?`<p>${x.detail}</p>`:""}</div></div>`).join("")}</div></section>`).join("")+`<div class="training-message"><span class="mini-label">BEYOND LAKE PLACID</span><p>${DATA.trainingMessage}</p></div>`;
   document.getElementById("trainNote").textContent="※ "+DATA.trainingNote;
   document.getElementById("levelList").innerHTML=DATA.levels.map(l=>
     `<div class="lvl"><span class="ldot" style="background:${l.color}"></span>

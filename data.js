@@ -97,17 +97,20 @@ const DATA = {
   hideRaces: ["IRONMAN 70.3 Musselman",
               "IRONMAN 70.3 Jones Beach|2026-09-26"],  // 노리스터로 10/24 재개최 — 옛 시트 행 숨김
 
-  /* ───── 주간 정기 훈련 (새벽 5:30 시작 · 2026-08-05 공식 공지) ───── */
-  training: [
-    { day:"월", icon:"ph-person-simple-swim",title:"리커버리 + 수영",     type:"swim" },
-    { day:"화", icon:"ph-bicycle",          title:"템포 라이딩 + 보강",   type:"bike" },
-    { day:"수", icon:"ph-person-simple-run", title:"이지 런 + 수영",      type:"run" },
-    { day:"목", icon:"ph-person-simple-run", title:"인터벌 러닝 + 보강",  type:"run" },
-    { day:"금", icon:"ph-person-simple-swim",title:"오픈워터 수영",       type:"swim" },
-    { day:"토", icon:"ph-bicycle",          title:"롱 라이딩 + 브릭 런",  type:"bike" },
-    { day:"일", icon:"ph-person-simple-run", title:"롱 런",              type:"run" },
+  /* 시즌별 훈련 계획 — 2026-10-26 팀 공지 기준 */
+  trainingSeasons: [
+    { name:"겨울", label:"WINTER", icon:"ph-bicycle", focus:"실내에서 쌓는 기본기",
+      sessions:[{day:"화 · 목",title:"실내 자전거 트레이너",detail:"이 중 하루는 인터벌 훈련"},
+        {day:"금",title:"수영",detail:""},
+        {day:"토",title:"실내 삼종 · 트런 · 로드런",detail:"날씨에 따라 훈련 방식 조정"}] },
+    { name:"봄", label:"SPRING", icon:"ph-person-simple-run", focus:"레이크플래시드 · Jersey City 마라톤 대비",
+      sessions:[{day:"화",title:"템포런",detail:""},{day:"목",title:"인터벌 러닝",detail:""},{day:"토",title:"롱런",detail:""}] },
+    { name:"여름", label:"SUMMER", icon:"ph-barbell", focus:"각자의 루틴에 필요한 보완",
+      sessions:[{day:"개인별",title:"부족한 종목 위주로 보완",detail:"자리 잡은 훈련 루틴을 이어가며 개인별로 조정"}] }
   ],
-  trainingNote: "모든 훈련 새벽 5:30 시작 (중요한 날은 5:15) · 시즌·일출·날씨에 따라 조정 · 주 1회 이상 참여 필수",
+  trainingEvent: { title:"가을 중장거리 라이딩", date:"2026-11-14", status:"예정", note:"세부 내용은 훈련 일주일 전 카톡방에 다시 공지합니다." },
+  trainingMessage:"레이크플래시드는 최종 목표가 아닌 하나의 마일스톤입니다. 그 과정에서 도전하고 싶은 대회가 있다면 팀원들과 공유해 주세요.",
+  trainingNote: "기본 훈련 시작은 새벽 5:30 (중요한 날은 5:15) · 시즌·일출·날씨에 따라 조정 · 주 1회 이상 참여. 개별 훈련 시간과 집결 장소는 카톡 공지를 확인하세요.",
 
   /* ───── 팀 레벨 (아이언맨 70.3 기준) ───── */
   levels: [
